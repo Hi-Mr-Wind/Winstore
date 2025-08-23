@@ -1,0 +1,50 @@
+INFO  | Serving assets from frontend DevServer URL: http://localhost:5173/
+DEBUG | [AssetHandler] Handling request '/' (file='.')
+DEBUG | [AssetHandler] File '.' not found, serving '/' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/'
+DEBUG | [AssetHandler] Handling request '/@vite/client' (file='@vite/client')
+DEBUG | [AssetHandler] File '@vite/client' not found, serving '/@vite/client' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/@vite/client'
+DEBUG | [AssetHandler] Handling request '/src/main.js' (file='src/main.js')
+DEBUG | [AssetHandler] File 'src/main.js' not found, serving '/src/main.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/main.js'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/vue.js' (file='node_modules/.vite/deps/vue.js')
+DEBUG | [AssetHandler] Handling request '/node_modules/vite/dist/client/env.mjs' (file='node_modules/vite/dist/client/env.mjs')
+DEBUG | [AssetHandler] Handling request '/src/App.vue' (file='src/App.vue')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/vue.js' not found, serving '/node_modules/.vite/deps/vue.js' by AssetHandler
+DEBUG | [AssetHandler] File 'node_modules/vite/dist/client/env.mjs' not found, serving '/node_modules/vite/dist/client/env.mjs' by AssetHandler
+DEBUG | [AssetHandler] File 'src/App.vue' not found, serving '/src/App.vue' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/vue.js?v=d282586a'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/vite/dist/client/env.mjs'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/App.vue?t=1755792746152'
+DEBUG | [AssetHandler] Handling request '/src/style.css' (file='src/style.css')
+DEBUG | [AssetHandler] File 'src/style.css' not found, serving '/src/style.css' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/style.css'
+DEBUG | [AssetHandler] Handling request '/src/components/HelloWorld.vue' (file='src/components/HelloWorld.vue')
+DEBUG | [AssetHandler] Handling request '/src/App.vue' (file='src/App.vue')
+DEBUG | [AssetHandler] Handling request '/@id/__x00__plugin-vue:export-helper' (file='@id/__x00__plugin-vue:export-helper')
+DEBUG | [AssetHandler] File 'src/components/HelloWorld.vue' not found, serving '/src/components/HelloWorld.vue' by AssetHandler
+DEBUG | [AssetHandler] File 'src/App.vue' not found, serving '/src/App.vue' by AssetHandler
+DEBUG | [AssetHandler] File '@id/__x00__plugin-vue:export-helper' not found, serving '/@id/__x00__plugin-vue:export-helper' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/components/HelloWorld.vue?t=1755792746152'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/App.vue?vue&type=style&index=0&lang.css'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/@id/__x00__plugin-vue:export-helper'
+DEBUG | [AssetHandler] Handling request '/wailsjs/go/apps/App.js' (file='wailsjs/go/apps/App.js')
+DEBUG | [AssetHandler] Handling request '/src/components/HelloWorld.vue' (file='src/components/HelloWorld.vue')
+DEBUG | [AssetHandler] File 'wailsjs/go/apps/App.js' not found, serving '/wailsjs/go/apps/App.js' by AssetHandler
+DEBUG | [AssetHandler] File 'src/components/HelloWorld.vue' not found, serving '/src/components/HelloWorld.vue' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/wailsjs/go/apps/App.js?t=1755792746152'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/components/HelloWorld.vue?vue&type=style&index=0&scoped=e17ea971&lang.css'
+DEBUG | [AssetHandler] Handling request '/src/assets/images/logo-universal.png' (file='src/assets/images/logo-universal.png')
+DEBUG | [AssetHandler] File 'src/assets/images/logo-universal.png' not found, serving '/src/assets/images/logo-universal.png' by AssetHandler
+DEBUG | [AssetHandler] Handling request '/src/assets/fonts/nunito-v16-latin-regular.woff2' (file='src/assets/fonts/nunito-v16-latin-regular.woff2')
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/assets/images/logo-universal.png'
+DEBUG | [AssetHandler] File 'src/assets/fonts/nunito-v16-latin-regular.woff2' not found, serving '/src/assets/fonts/nunito-v16-latin-regular.woff2' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/assets/fonts/nunito-v16-latin-regular.woff2'
+DEBUG | [AssetHandler] Handling request '/favicon.ico' (file='favicon.ico')
+DEBUG | [AssetHandler] File 'favicon.ico' not found, serving '/favicon.ico' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/favicon.ico'
+DEBUG | &[]
+DEBUG | &[]
+DEBUG | &[]
+DEBUG | &[]

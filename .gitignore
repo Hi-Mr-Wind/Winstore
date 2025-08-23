@@ -1,0 +1,6 @@
+build/bin
+node_modules
+frontend/dist
+/frontend-old/
+/frontend/node_modules
+/tests
