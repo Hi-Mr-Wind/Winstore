@@ -68,13 +68,10 @@ func getInstalledSoftware() ([]softwareInfo, error) {
 		if err != nil {
 			continue // 跳过无法打开的路径
 		}
-		defer k.Close()
-
 		subkeys, err := k.ReadSubKeyNames(-1)
 		if err != nil {
 			continue
 		}
-
 		for _, subkey := range subkeys {
 			subkeyPath := filepath.Join(path, subkey)
 			sk, err := registry.OpenKey(registry.LOCAL_MACHINE, subkeyPath, registry.QUERY_VALUE)
@@ -85,7 +82,10 @@ func getInstalledSoftware() ([]softwareInfo, error) {
 			displayName, _, _ := sk.GetStringValue("DisplayName")
 			// 如果没有DisplayName，跳过此项
 			if displayName == "" {
-				sk.Close()
+				err := sk.Close()
+				if err != nil {
+					return nil, err
+				}
 				continue
 			}
 
@@ -95,10 +95,12 @@ func getInstalledSoftware() ([]softwareInfo, error) {
 			uninstallString, _, _ := sk.GetStringValue("UninstallString")
 			quietUninstallString, _, _ := sk.GetStringValue("QuietUninstallString")
 			// 过滤掉 windows 系统软件
-			if strings.TrimSpace(publisher) == "" ||
-				strings.TrimSpace(publisher) == "Microsoft Corporation" ||
+			if strings.TrimSpace(publisher) == "Microsoft Corporation" ||
 				strings.TrimSpace(publisher) == "Microsoft Corporations" {
-				sk.Close()
+				err := sk.Close()
+				if err != nil {
+					return nil, err
+				}
 				continue
 			}
 			software := softwareInfo{
@@ -111,7 +113,14 @@ func getInstalledSoftware() ([]softwareInfo, error) {
 			}
 
 			softwareList = append(softwareList, software)
-			sk.Close()
+			e := sk.Close()
+			if e != nil {
+				return nil, e
+			}
+		}
+		er := k.Close()
+		if er != nil {
+			return nil, er
 		}
 	}
 
