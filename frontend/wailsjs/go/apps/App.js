@@ -6,6 +6,14 @@ export function DownloadFile(arg1, arg2, arg3) {
   return window['go']['apps']['App']['DownloadFile'](arg1, arg2, arg3);
 }
 
+export function GetSoftwareList() {
+  return window['go']['apps']['App']['GetSoftwareList']();
+}
+
+export function GetSysInfo() {
+  return window['go']['apps']['App']['GetSysInfo']();
+}
+
 export function Greet(arg1) {
   return window['go']['apps']['App']['Greet'](arg1);
 }

@@ -1,4 +1,4 @@
-package sysInfo
+package sysUtils
 
 import (
 	"context"
