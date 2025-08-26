@@ -18,6 +18,10 @@ export function SelectByID(arg1) {
   return window['go']['apps']['App']['SelectByID'](arg1);
 }
 
+export function SelectByName(arg1) {
+  return window['go']['apps']['App']['SelectByName'](arg1);
+}
+
 export function SelectPage(arg1, arg2, arg3) {
   return window['go']['apps']['App']['SelectPage'](arg1, arg2, arg3);
 }

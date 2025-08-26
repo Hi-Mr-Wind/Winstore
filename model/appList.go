@@ -78,3 +78,10 @@ func (appList *AppList) UpdateData() error {
 func (appList *AppList) DeleteByID() error {
 	return DB.Delete(appList).Error
 }
+
+// SelectByAppName 根据软件名称模糊查询软件列表数据
+func (appList *AppList) SelectByAppName() (*[]AppList, error) {
+	var appLists = new([]AppList)
+	err := DB.Where("app_name like %?%", appList.AppName).Find(appLists).Error
+	return appLists, err
+}

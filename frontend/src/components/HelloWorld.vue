@@ -18,7 +18,7 @@ function greet() {
 
 function selectPage() {
   SelectPage(1, 10, data.name).then(result => {
-    data.resultText = result
+    data.resultText = result.data
     const v = useAppStore().map.get("123")
     console.log(v)
   })

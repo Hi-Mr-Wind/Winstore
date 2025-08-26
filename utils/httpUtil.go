@@ -115,7 +115,6 @@ func DownloadFile(url string, filepath string, filename string, appContext conte
 					progress.Percentage = float64(downloaded) / float64(totalSize) * 100
 				}
 				//发送下载进度
-				fmt.Println("下载进度:", *progress)
 				baseModel := new(model.BaseModel)
 				baseModel.Code = 0
 				baseModel.Data = progress
