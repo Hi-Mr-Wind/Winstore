@@ -3,6 +3,7 @@ module winstore
 go 1.25.0
 
 require (
+	github.com/StackExchange/wmi v1.2.1
 	github.com/glebarez/sqlite v1.11.0
 	github.com/google/uuid v1.6.0
 	github.com/wailsapp/wails/v2 v2.10.2

@@ -11,6 +11,20 @@ type Classify struct {
 }
 
 // TableName 指定表名
-func (Classify) TableName() string {
+func (*Classify) TableName() string {
 	return "classifys"
+}
+
+// SelectAll 查询所有分类
+func (classify *Classify) SelectAll() (*[]Classify, error) {
+	var classifys []Classify
+	err := DB.Find(&classifys).Error
+	return &classifys, err
+}
+
+// SelectSubClassificationById 根据父级分类id查询子级分类
+func (classify *Classify) SelectSubClassificationById() (*[]Classify, error) {
+	var classifys []Classify
+	err := DB.Where("parent_level = ?", classify.ParentLevel).Find(&classify).Error
+	return &classifys, err
 }

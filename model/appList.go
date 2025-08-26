@@ -70,8 +70,11 @@ func (appList *AppList) SelectAllPage(pageNum int, pageSize int, classify string
 }
 
 // UpdateData 更新软件列表数据
-func (appList *AppList) UpdateData() error {
-	return DB.Save(appList).Error
+// data:要更新的数据
+// 返回值：受影响的行数
+func (appList *AppList) UpdateData(data *[]AppList) (int64, error) {
+	res := DB.Model(appList).Where("1 = 1").Updates(data)
+	return res.RowsAffected, res.Error
 }
 
 // DeleteByID 删除软件列表数据
