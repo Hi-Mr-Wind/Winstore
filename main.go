@@ -6,7 +6,6 @@ import (
 	"log"
 	"winstore/apps"
 
-	"github.com/google/uuid"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/logger"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -35,7 +34,7 @@ func main() {
 		OnStartup:        app.Startup,
 		OnShutdown:       app.Shutdown,
 		SingleInstanceLock: &options.SingleInstanceLock{
-			UniqueId:               uuid.New().String(),
+			UniqueId:               "0bc864df-9fda-8d78-e52c-b9435aedd462",
 			OnSecondInstanceLaunch: app.OnSecondInstanceLaunch,
 		},
 		Bind: []interface{}{

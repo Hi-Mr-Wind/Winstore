@@ -10,5 +10,12 @@
   "author": {
     "name": "wind",
     "email": "wzsf1810@qq.com"
+  },
+  "Info": {
+    "companyName": "winstore",
+    "productName": "winstore",
+    "productVersion": "1.0.0",
+    "copyright": "wind",
+    "comments": "一个小白友好的，官方的软件和环境下载地址，避免在找软件时，被无良网站诱拐下载，导致电脑被恶意软件和流氓插件占领。"
   }
 }
