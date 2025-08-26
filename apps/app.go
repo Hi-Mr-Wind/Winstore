@@ -3,9 +3,10 @@ package apps
 import (
 	"context"
 	"fmt"
+	"os"
 	"strings"
 	"winstore/model"
-	"winstore/utils"
+	"winstore/sysUtils"
 
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -28,7 +29,29 @@ func NewApp() *App {
 func (a *App) Startup(ctx context.Context) {
 	a.ctx = ctx
 	runtime.LogSetLogLevel(a.ctx, 2)
+	// 初始化数据库
 	model.DBinit(ctx)
+	residue := new(model.Residue)
+	all, err := residue.SelectAll()
+	if err != nil {
+		runtime.LogError(a.ctx, "查询软件残留数据失败！")
+		return
+	}
+	// 遍历检查残余数据
+	for _, r := range *all {
+		// 判断残余目录是否存在，如果已经不存在，则删除残余数据
+		_, err := os.Stat(r.ResiduePath)
+		if err != nil {
+			if os.IsNotExist(err) {
+				err := r.DeleteByName()
+				if err != nil {
+					runtime.LogError(a.ctx, "删除软件残留数据失败！")
+					return
+				}
+			}
+			return
+		}
+	}
 }
 
 // Shutdown 退出时调用
@@ -52,5 +75,5 @@ func (a *App) Greet(name string) string {
 
 // DownloadFile 下载文件
 func (a *App) DownloadFile(url string, filepath string, filename string) error {
-	return utils.DownloadFile(url, filepath, filename, a.ctx)
+	return sysUtils.DownloadFile(url, filepath, filename, a.ctx)
 }

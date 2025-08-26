@@ -22,6 +22,10 @@ export function OnSecondInstanceLaunch(arg1) {
   return window['go']['apps']['App']['OnSecondInstanceLaunch'](arg1);
 }
 
+export function RestartSystem(arg1) {
+  return window['go']['apps']['App']['RestartSystem'](arg1);
+}
+
 export function SelectByID(arg1) {
   return window['go']['apps']['App']['SelectByID'](arg1);
 }
@@ -32,4 +36,8 @@ export function SelectByName(arg1) {
 
 export function SelectPage(arg1, arg2, arg3) {
   return window['go']['apps']['App']['SelectPage'](arg1, arg2, arg3);
+}
+
+export function UninstallSoftware(arg1) {
+  return window['go']['apps']['App']['UninstallSoftware'](arg1);
 }

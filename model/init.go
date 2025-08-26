@@ -2,7 +2,8 @@ package model
 
 import (
 	"context"
-	"os"
+	"syscall"
+	"unsafe"
 	"winstore/log"
 
 	"github.com/glebarez/sqlite"
@@ -20,7 +21,26 @@ func DBinit(c context.Context) {
 	})
 	if err != nil {
 		runtime.LogErrorf(c, "数据加载失败：%s", err.Error())
-		os.Exit(1)
+		user32 := syscall.NewLazyDLL("user32.dll")
+		messageBox := user32.NewProc("MessageBoxW")
+		fromString, err := syscall.UTF16PtrFromString("程序数据库加载失败！请检查程序安装目录下lib文件夹内是否存在数据文件")
+		if err != nil {
+			return
+		}
+		lpCaption, err := syscall.UTF16PtrFromString("错误！")
+		if err != nil {
+			return
+		}
+		ret, _, _ := messageBox.Call(
+			0,
+			uintptr(unsafe.Pointer(fromString)),
+			uintptr(unsafe.Pointer(lpCaption)),
+			0,
+		)
+		if ret == 0 {
+			println("调用 MessageBox 失败")
+		}
+		runtime.Quit(c)
 	}
 	DB = db
 }
