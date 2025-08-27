@@ -194,6 +194,20 @@ func UninstallSoftware(ctx context.Context, softwareName string) error {
 			return
 		}
 		runtime.LogInfof(ctx, "\n%s 卸载程序执行完成,检查软件残留\n", softwareName)
+		// 卸载后，检查软件目录是否还有该软件，防止用户操作错误导致未卸载
+		installedSoftware, err := getInstalledSoftware()
+		if err != nil {
+			runtime.LogErrorf(ctx, "获取软件列表失败: %v\n", err)
+			return
+		}
+		for _, data := range installedSoftware {
+			if strings.EqualFold(data.Name, softwareName) {
+				runtime.LogErrorf(ctx, "软件未卸载成功！请手动卸载！")
+				runtime.EventsEmit(ctx, "UninstallSoftware_"+softwareName, fmt.Sprintf("%s 未卸载成功！请再次尝试！", softwareName))
+				return
+			}
+		}
+
 		// 检查软件目录是否有残留
 		dir := filepath.Dir(cmdPath)
 		_, osErr := os.Stat(dir)
