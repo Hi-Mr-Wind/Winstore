@@ -78,7 +78,12 @@ func (a *App) Startup(ctx context.Context) {
 
 // Shutdown 退出时调用
 func (a *App) Shutdown(ctx context.Context) {
-	runtime.LogInfo(a.ctx, "App shutdown")
+	err := comm.AppCache.SaveToDisk()
+	if err != nil {
+		runtime.LogError(ctx, "保存缓存数据失败！")
+		return
+	}
+	runtime.LogInfo(ctx, "App shutdown")
 }
 
 func (a *App) OnSecondInstanceLaunch(secondInstanceData options.SecondInstanceData) {

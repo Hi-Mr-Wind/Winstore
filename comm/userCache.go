@@ -30,7 +30,7 @@ func (c *Cache) Set(key string, value interface{}, ttl time.Duration) {
 	expireAt := time.Now().Add(ttl)
 	c.items.Store(key, CacheItem{Value: value, ExpireAt: expireAt})
 	go func() {
-		err := c.saveToDisk()
+		err := c.SaveToDisk()
 		if err != nil {
 			fmt.Println("Error saving cache:", err)
 		}
@@ -56,7 +56,7 @@ func (c *Cache) Delete(key string) error {
 		return fmt.Errorf("key not found")
 	}
 	c.items.Delete(key)
-	err := c.saveToDisk()
+	err := c.SaveToDisk()
 	if err != nil {
 		c.Set(key, value, 30*time.Minute)
 		return fmt.Errorf("delete cache error:%v", err)
@@ -92,7 +92,7 @@ func (c *Cache) loadFromDisk() {
 }
 
 // SaveToDisk 保存数据到文件
-func (c *Cache) saveToDisk() error {
+func (c *Cache) SaveToDisk() error {
 	data := make(map[string]CacheItem)
 	c.items.Range(func(key, value interface{}) bool {
 		cacheItem := value.(CacheItem)
@@ -116,7 +116,7 @@ func (c *Cache) saveToDisk() error {
 func (c *Cache) autoSave(interval time.Duration) {
 	ticker := time.NewTicker(interval)
 	for range ticker.C {
-		err := c.saveToDisk()
+		err := c.SaveToDisk()
 		if err != nil {
 			return
 		}
