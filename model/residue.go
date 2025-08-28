@@ -53,5 +53,25 @@ func (residue *Residue) SelectAll() *[]Residue {
 
 // DeleteByName 根据软件名称删除残余软件数据
 func (residue *Residue) DeleteByName() error {
-	return comm.AppCache.Delete(residue.ResidueAppName)
+	get, b := comm.AppCache.Get("residue")
+	if !b {
+		return nil
+	}
+	var residueList []Residue
+	err := json.Unmarshal([]byte(get.(string)), &residueList)
+	if err != nil {
+		return err
+	}
+	for i, v := range residueList {
+		if v.ResidueAppName == residue.ResidueAppName {
+			residueList = append(residueList[:i], residueList[i+1:]...)
+			break
+		}
+	}
+	marshal, err := json.Marshal(residueList)
+	if err != nil {
+		return err
+	}
+	comm.AppCache.Set("residue", string(marshal), 30*time.Hour)
+	return nil
 }
