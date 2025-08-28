@@ -2,8 +2,7 @@ package main
 
 import (
 	"embed"
-	"fmt"
-	"log"
+	"os"
 	"winstore/apps"
 
 	"github.com/wailsapp/wails/v2"
@@ -18,8 +17,6 @@ var assets embed.FS
 func main() {
 	// 创建应用结构的实例
 	app := apps.NewApp()
-	// 重定向标准输出到 Wails 日志
-	log.SetOutput(&WailsLogWriter{})
 	// 创建带有选项的应用程序
 	err := wails.Run(&options.App{
 		Title:    "win store",
@@ -42,14 +39,6 @@ func main() {
 		},
 	})
 	if err != nil {
-		panic(err)
+		os.Exit(1)
 	}
-}
-
-type WailsLogWriter struct{}
-
-func (w *WailsLogWriter) Write(p []byte) (n int, err error) {
-	// 这里可以通过前端显示日志，或者使用 wails 的日志系统
-	fmt.Print(string(p))
-	return len(p), nil
 }
