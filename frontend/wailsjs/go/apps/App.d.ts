@@ -23,3 +23,5 @@ export function SelectByName(arg1:string):Promise<model.BaseModel>;
 export function SelectPage(arg1:number,arg2:number,arg3:string):Promise<model.BaseModel>;
 
 export function UninstallSoftware(arg1:string):Promise<void>;
+
+export function UpdateApp():Promise<void>;

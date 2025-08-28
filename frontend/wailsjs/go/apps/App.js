@@ -41,3 +41,7 @@ export function SelectPage(arg1, arg2, arg3) {
 export function UninstallSoftware(arg1) {
   return window['go']['apps']['App']['UninstallSoftware'](arg1);
 }
+
+export function UpdateApp() {
+  return window['go']['apps']['App']['UpdateApp']();
+}

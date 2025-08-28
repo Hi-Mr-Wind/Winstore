@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
+	"winstore/comm"
 	"winstore/model"
 	"winstore/sysUtils"
 
@@ -21,6 +23,26 @@ type App struct {
 
 // NewApp 创建新的 App 应用程序结构
 func NewApp() *App {
+	//获取用户缓存目录
+	userCacheDir, oserr := os.UserCacheDir()
+	if oserr != nil {
+		dir := "./cache"
+		// 如果没有获取到用户目录则安装路径下创建缓存目录
+		err := os.MkdirAll(dir, os.ModePerm)
+		if err != nil {
+			panic(err)
+		}
+		comm.UserDir = dir
+	} else {
+		cacheDir := filepath.Join(userCacheDir, "winstore")
+		err := os.MkdirAll(cacheDir, os.ModePerm)
+		if err != nil {
+			panic(err)
+		}
+		comm.UserDir = cacheDir
+	}
+	// 初始化缓存
+	comm.NewCache()
 	return &App{}
 }
 
@@ -31,12 +53,10 @@ func (a *App) Startup(ctx context.Context) {
 	runtime.LogSetLogLevel(a.ctx, 2)
 	// 初始化数据库
 	model.DBinit(ctx)
+	// 初始化软件配置
+	model.InitConfig(ctx)
 	residue := new(model.Residue)
-	all, err := residue.SelectAll()
-	if err != nil {
-		runtime.LogError(a.ctx, "查询软件残留数据失败！")
-		return
-	}
+	all := residue.SelectAll()
 	// 遍历检查残余数据
 	for _, r := range *all {
 		// 判断残余目录是否存在，如果已经不存在，则删除残余数据

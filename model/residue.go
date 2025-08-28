@@ -1,34 +1,36 @@
 package model
 
+import (
+	"time"
+	"winstore/comm"
+)
+
 // Residue 软件卸载后残余数据
 type Residue struct {
-	// 软件卸载后残余数据ID
-	ID string `json:"id" gorm:"type:text;primaryKey;column:id"`
 	// 残余数据路径
-	ResiduePath string `json:"residue_path" gorm:"type:text;column:residue_path"`
+	ResiduePath string `json:"residue_path"`
 	// 残余软件名称
-	ResidueAppName string `json:"residue_app_name" gorm:"type:text;column:residue_app_name"`
-	// 创建时间
-	CreateTime string `json:"create_time" gorm:"type:text;column:create_time"`
-}
-
-func (*Residue) TableName() string {
-	return "residue"
+	ResidueAppName string `json:"residue_app_name"`
 }
 
 // InsertData 插入残余软件数据
-func (residue *Residue) InsertData() error {
-	return DB.Create(residue).Error
+func (residue *Residue) InsertData() {
+	comm.AppCache.Set(residue.ResidueAppName, residue.ResiduePath, 30*time.Hour)
 }
 
 // SelectAll 查询所有残余软件数据
-func (residue *Residue) SelectAll() (*[]Residue, error) {
+func (residue *Residue) SelectAll() *[]Residue {
 	var residueList []Residue
-	err := DB.Find(&residueList).Error
-	return &residueList, err
+	for key, value := range comm.AppCache.GetAll() {
+		residue := Residue{}
+		residue.ResidueAppName = key
+		residue.ResiduePath = value.(string)
+		residueList = append(residueList, residue)
+	}
+	return &residueList
 }
 
 // DeleteByName 根据软件名称删除残余软件数据
 func (residue *Residue) DeleteByName() error {
-	return DB.Where("residue_app_name = ?", residue.ResidueAppName).Delete(residue).Error
+	return comm.AppCache.Delete(residue.ResidueAppName)
 }

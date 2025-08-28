@@ -8,10 +8,8 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
-	"time"
 	"winstore/model"
 
-	"github.com/google/uuid"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"golang.org/x/sys/windows/registry"
 )
@@ -215,15 +213,10 @@ func UninstallSoftware(ctx context.Context, softwareName string) error {
 			// 如果 卸载后的软件目录仍然存在，则插入数据
 			if !os.IsNotExist(osErr) {
 				residue := model.Residue{
-					ID:             uuid.New().String(),
 					ResiduePath:    dir,
 					ResidueAppName: softwareName,
-					CreateTime:     time.Now().Format("2006-01-02 15:04:05"),
 				}
-				insertErr := residue.InsertData()
-				if insertErr != nil {
-					runtime.LogErrorf(ctx, "插入数据失败: %v\n", insertErr)
-				}
+				residue.InsertData()
 				// 标记删除残留目录
 				err := MarkForDeletion(dir)
 				if err != nil {
@@ -231,14 +224,11 @@ func UninstallSoftware(ctx context.Context, softwareName string) error {
 					return
 				}
 				runtime.EventsEmit(ctx, "UninstallSoftware_"+softwareName, fmt.Sprintf("%s 卸载完成！将在计算机重启后删除残留文件！", softwareName))
-			} else {
-				// 如果以及不存在残留文件，则尝试删除注册表项
-				//registryPath := fmt.Sprintf(`SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\%s`, software.Name)
-				//k, err := registry.OpenKey(registry.LOCAL_MACHINE, registryPath, registry.ALL_ACCESS)
-				//if err != nil {
-				//	runtime.LogErrorf(ctx, "无法打开注册表项: %v\n", err)
-				//}
 			}
+			//else {
+			//--暂时不再提供删除注册表项--
+
+			//}
 			return
 		}
 
