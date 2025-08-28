@@ -1,6 +1,7 @@
 package model
 
 import (
+	"encoding/json/v2"
 	"time"
 	"winstore/comm"
 )
@@ -14,18 +15,38 @@ type Residue struct {
 }
 
 // InsertData 插入残余软件数据
-func (residue *Residue) InsertData() {
-	comm.AppCache.Set(residue.ResidueAppName, residue.ResiduePath, 30*time.Hour)
+func (residue *Residue) InsertData() error {
+	get, b := comm.AppCache.Get("residue")
+	var residueList []Residue
+	if !b {
+		residueList = append(residueList, *residue)
+	} else {
+		err := json.Unmarshal([]byte(get.(string)), &residueList)
+		if err != nil {
+			return err
+		}
+		residueList = append(residueList, *residue)
+	}
+	marshal, err := json.Marshal(residueList)
+	if err != nil {
+		return err
+	}
+	comm.AppCache.Set("residue", string(marshal), 30*time.Hour)
+	return nil
 }
 
 // SelectAll 查询所有残余软件数据
 func (residue *Residue) SelectAll() *[]Residue {
 	var residueList []Residue
 	for key, value := range comm.AppCache.GetAll() {
-		residue := Residue{}
-		residue.ResidueAppName = key
-		residue.ResiduePath = value.(string)
-		residueList = append(residueList, residue)
+		if key != "residue" {
+			continue
+		}
+		value := value.(string)
+		err := json.Unmarshal([]byte(value), &residueList)
+		if err != nil {
+			return nil
+		}
 	}
 	return &residueList
 }

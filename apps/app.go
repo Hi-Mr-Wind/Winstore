@@ -57,19 +57,21 @@ func (a *App) Startup(ctx context.Context) {
 	model.InitConfig(ctx)
 	residue := new(model.Residue)
 	all := residue.SelectAll()
-	// 遍历检查残余数据
-	for _, r := range *all {
-		// 判断残余目录是否存在，如果已经不存在，则删除残余数据
-		_, err := os.Stat(r.ResiduePath)
-		if err != nil {
-			if os.IsNotExist(err) {
-				err := r.DeleteByName()
-				if err != nil {
-					runtime.LogError(a.ctx, "删除软件残留数据失败！")
-					return
+	if all != nil {
+		// 遍历检查残余数据
+		for _, r := range *all {
+			// 判断残余目录是否存在，如果已经不存在，则删除残余数据
+			_, err := os.Stat(r.ResiduePath)
+			if err != nil {
+				if os.IsNotExist(err) {
+					err := r.DeleteByName()
+					if err != nil {
+						runtime.LogError(a.ctx, "删除软件残留数据失败！")
+						return
+					}
 				}
+				return
 			}
-			return
 		}
 	}
 }
