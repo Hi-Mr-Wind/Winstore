@@ -28,7 +28,11 @@ func NewCache() *Cache {
 }
 
 func (c *Cache) Set(key string, value interface{}, ttl time.Duration) {
-	expireAt := time.Now().Add(ttl)
+	now := time.Now()
+	expireAt := now.Add(ttl)
+	if now.Equal(expireAt) {
+		expireAt = now.Add(24 * 30 * 12 * 100 * time.Hour)
+	}
 	c.items.Store(key, CacheItem{Value: value, ExpireAt: expireAt})
 	go func() {
 
@@ -60,7 +64,7 @@ func (c *Cache) Delete(key string) error {
 	c.items.Delete(key)
 	err := c.SaveToDisk()
 	if err != nil {
-		c.Set(key, value, 30*time.Minute)
+		c.Set(key, value, 24*30*time.Hour)
 		return fmt.Errorf("delete cache error:%v", err)
 	}
 	return nil

@@ -31,7 +31,7 @@ func (residue *Residue) InsertData() error {
 	if err != nil {
 		return err
 	}
-	comm.AppCache.Set("residue", string(marshal), 30*time.Hour)
+	comm.AppCache.Set("residue", string(marshal), 24*30*time.Hour)
 	return nil
 }
 
@@ -72,6 +72,6 @@ func (residue *Residue) DeleteByName() error {
 	if err != nil {
 		return err
 	}
-	comm.AppCache.Set("residue", string(marshal), 30*time.Hour)
+	comm.AppCache.Set("residue", string(marshal), 24*30*time.Hour)
 	return nil
 }

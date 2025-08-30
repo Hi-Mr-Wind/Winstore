@@ -1,14 +1,25 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
-// import 'element-plus/theme-chalk/dark/css-vars.css'
-import { createPinia } from 'pinia';
-import './css/style.css';
+import { i18n, initLanguage } from './i18n'
+import { initTheme } from './composables/useTheme'
+import './styles/theme.css'
 
-const pinia = createPinia();
+// 创建应用实例
 const app = createApp(App)
 
-app.use(router)
-app.use(pinia)
+// 创建Pinia实例
+const pinia = createPinia()
 
+// 初始化语言和主题
+initLanguage()
+initTheme()
+
+// 使用插件
+app.use(pinia)
+app.use(router)
+app.use(i18n)
+
+// 挂载应用
 app.mount('#app')
