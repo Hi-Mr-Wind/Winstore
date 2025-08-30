@@ -1,3 +1,12 @@
+<!--
+  分类列表页面组件
+  功能：
+  - 展示所有应用分类的列表
+  - 每个分类显示图标、名称和应用数量
+  - 点击分类卡片跳转到对应的分类详情页
+  - 支持响应式设计
+  - 提供分类浏览功能
+-->
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -10,8 +19,14 @@ const router = useRouter()
 const appStore = useAppStore()
 const { t } = useI18n()
 
+// 处理分类卡片点击 - 跳转到分类详情页
+const handleCategoryClick = (category: CategoryItem) => {
+  router.push(`/category/${category.id}`)
+}
+
 // 初始化数据
 onMounted(() => {
+  // 如果分类数据为空，则初始化模拟数据
   if (appStore.categories.length === 0) {
     const mockCategories: CategoryItem[] = [
       { id: 1, name: '生产力', icon: '💼', count: 156 },
@@ -24,26 +39,22 @@ onMounted(() => {
     appStore.setCategories(mockCategories)
   }
 })
-
-const handleCategoryClick = (category: CategoryItem) => {
-  router.push(`/category/${category.id}`)
-}
 </script>
 
 <template>
   <div class="app-container">
-    <!-- 侧边栏 -->
+    <!-- 侧边栏导航 -->
     <Sidebar />
 
     <!-- 主内容区域 -->
     <div class="main-content">
-      <!-- 页面标题 -->
+      <!-- 页面标题区域 -->
       <div class="page-header">
         <h1 class="page-title">{{ t('common.category') }}</h1>
         <p class="page-description">{{ t('home.browseByCategory') }}</p>
       </div>
 
-      <!-- 分类网格 -->
+      <!-- 分类网格区域 -->
       <div class="categories-grid">
         <div 
           v-for="category in appStore.categories" 
@@ -51,7 +62,10 @@ const handleCategoryClick = (category: CategoryItem) => {
           class="category-card"
           @click="handleCategoryClick(category)"
         >
+          <!-- 分类图标 -->
           <div class="category-icon">{{ category.icon }}</div>
+          
+          <!-- 分类信息 -->
           <div class="category-info">
             <h3 class="category-name">{{ category.name }}</h3>
             <p class="category-count">{{ category.count }} {{ t('home.apps') }}</p>
@@ -63,18 +77,21 @@ const handleCategoryClick = (category: CategoryItem) => {
 </template>
 
 <style scoped>
+/* 应用容器 - 整体布局 */
 .app-container {
   display: flex;
   height: 100vh;
   background-color: var(--bg-secondary);
 }
 
+/* 主内容区域 */
 .main-content {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
 }
 
+/* 页面标题区域 */
 .page-header {
   margin-bottom: 32px;
 }
@@ -91,12 +108,14 @@ const handleCategoryClick = (category: CategoryItem) => {
   color: var(--text-secondary);
 }
 
+/* 分类网格布局 */
 .categories-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
 }
 
+/* 分类卡片样式 */
 .category-card {
   background-color: var(--bg-primary);
   border-radius: 12px;
@@ -110,20 +129,24 @@ const handleCategoryClick = (category: CategoryItem) => {
   gap: 16px;
 }
 
+/* 分类卡片悬停效果 */
 .category-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-medium);
 }
 
+/* 分类图标样式 */
 .category-icon {
   font-size: 48px;
   flex-shrink: 0;
 }
 
+/* 分类信息区域 */
 .category-info {
   flex: 1;
 }
 
+/* 分类名称样式 */
 .category-name {
   font-size: 20px;
   font-weight: 600;
@@ -131,6 +154,7 @@ const handleCategoryClick = (category: CategoryItem) => {
   margin-bottom: 8px;
 }
 
+/* 分类应用数量样式 */
 .category-count {
   font-size: 14px;
   color: var(--text-secondary);

@@ -1,57 +1,444 @@
-/* 主题CSS变量 */
+/**
+ * 主题样式文件
+ * 定义应用商店的浅色和深色主题样式
+ * 使用CSS变量实现主题切换，支持动态主题切换
+ */
+
+/* ==================== Wails WebView 环境特殊优化 ==================== */
+
+/* 确保在 Wails WebView 中所有弹窗都正确显示 */
+.el-message-box__wrapper,
+.el-dialog__wrapper,
+.custom-dialog-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 999999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+.el-message-box,
+.el-dialog,
+.custom-dialog {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  z-index: 1000000 !important;
+  max-width: 90vw !important;
+  max-height: 90vh !important;
+  overflow: auto !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--border-primary) !important;
+  background: var(--bg-primary) !important;
+}
+
+.el-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 999998 !important;
+  background-color: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* WebView 特定的样式修复 */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 确保在 WebView 中滚动条正确显示 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* WebView 中的动画优化 */
+@media (prefers-reduced-motion: no-preference) {
+  .custom-dialog {
+    animation: dialogSlideIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+
+/* Element Plus 子菜单深色主题修复 */
+.el-sub-menu .el-menu--inline {
+  background-color: transparent !important;
+}
+
+.el-sub-menu.is-opened .el-menu--inline {
+  background-color: transparent !important;
+}
+
+.el-menu--inline .el-menu-item {
+  background-color: transparent !important;
+}
+
+.el-sub-menu__title {
+  background-color: transparent !important;
+}
+
+/* 强制所有弹窗在 WebView 中正确显示 */
+body .el-message-box__wrapper,
+body .el-dialog__wrapper,
+body .custom-dialog-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 999999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+body .el-message-box,
+body .el-dialog,
+body .custom-dialog {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  z-index: 1000000 !important;
+  max-width: 90vw !important;
+  max-height: 90vh !important;
+  overflow: auto !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--border-primary) !important;
+  background: var(--bg-primary) !important;
+}
+
+/* 确保在 Wails 环境中所有弹窗都使用最高优先级 */
+#app .el-message-box__wrapper,
+#app .el-dialog__wrapper,
+#app .custom-dialog-overlay {
+  z-index: 999999 !important;
+}
+
+#app .el-message-box,
+#app .el-dialog,
+#app .custom-dialog {
+  z-index: 1000000 !important;
+}
+
+/* ==================== 原有样式保持不变 ==================== */
+
+/* 全局弹窗样式 - 确保在Wails应用中正确显示 */
+.el-message-box__wrapper {
+  z-index: 99999 !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.el-message-box {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  z-index: 100000 !important;
+  max-width: 90vw !important;
+  max-height: 90vh !important;
+  overflow: auto !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.el-overlay {
+  z-index: 99998 !important;
+}
+
+/* 卸载确认弹窗特殊样式 */
+.uninstall-confirm-dialog .el-message-box__wrapper {
+  z-index: 99999 !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.uninstall-confirm-dialog .el-message-box {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  z-index: 100000 !important;
+  max-width: 90vw !important;
+  max-height: 90vh !important;
+  overflow: auto !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.uninstall-confirm-dialog .el-overlay {
+  z-index: 99998 !important;
+}
+
+/* 确保所有 Element Plus 弹窗都正确显示 */
+.el-dialog__wrapper {
+  z-index: 99999 !important;
+}
+
+.el-dialog {
+  z-index: 100000 !important;
+}
+
+/* 修复可能的定位问题 */
+.el-message-box__wrapper[style*="position"] {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.el-message-box[style*="position"] {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+}
+
+/* 强制修复弹窗定位问题 - 确保所有弹窗都显示为独立模态层 */
+.el-message-box__wrapper,
+.el-dialog__wrapper {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  z-index: 99999 !important;
+}
+
+.el-message-box,
+.el-dialog {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  z-index: 100000 !important;
+  max-width: 90vw !important;
+  max-height: 90vh !important;
+  overflow: auto !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  border-radius: 8px !important;
+}
+
+.el-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 99998 !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* 确保弹窗在所有情况下都正确显示 */
+body .el-message-box__wrapper,
+body .el-dialog__wrapper {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  z-index: 99999 !important;
+}
+
+body .el-message-box,
+body .el-dialog {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  z-index: 100000 !important;
+  max-width: 90vw !important;
+  max-height: 90vh !important;
+  overflow: auto !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  border-radius: 8px !important;
+}
+
+/* ==================== 主题变量定义 ==================== */
+
 :root {
-  /* 浅色主题变量 */
+  /* 主色调 */
+  --accent-primary: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-active: #1d4ed8;
+  
+  /* 背景色 */
   --bg-primary: #ffffff;
-  --bg-secondary: #f5f5f5;
-  --bg-tertiary: #f8f9fa;
-  --text-primary: #333333;
-  --text-secondary: #666666;
-  --text-tertiary: #999999;
-  --border-primary: #e0e0e0;
-  --border-secondary: #f0f0f0;
-  --accent-primary: #0078d4;
-  --accent-secondary: #106ebe;
-  --accent-hover: #005a9e;
-  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.15);
-  --shadow-heavy: 0 8px 32px rgba(0, 0, 0, 0.2);
-  --success-color: #52c41a;
-  --warning-color: #faad14;
-  --error-color: #ff4d4f;
-  --info-color: #1890ff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --bg-hover: #e2e8f0;
+  
+  /* 文字颜色 */
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-tertiary: #94a3b8;
+  
+  /* 边框颜色 */
+  --border-primary: #e2e8f0;
+  --border-secondary: #cbd5e1;
+  
+  /* 阴影 */
+  --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-heavy: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-/* 深色主题变量 */
+/* 深色主题 */
 .dark {
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #2d2d2d;
-  --bg-tertiary: #3a3a3a;
-  --text-primary: #ffffff;
-  --text-secondary: #cccccc;
-  --text-tertiary: #999999;
-  --border-primary: #404040;
-  --border-secondary: #505050;
-  --accent-primary: #0078d4;
-  --accent-secondary: #106ebe;
-  --accent-hover: #005a9e;
-  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-heavy: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --success-color: #52c41a;
-  --warning-color: #faad14;
-  --error-color: #ff4d4f;
-  --info-color: #1890ff;
+  /* 主色调 */
+  --accent-primary: #60a5fa;
+  --accent-hover: #3b82f6;
+  --accent-active: #2563eb;
+  
+  /* 背景色 */
+  --bg-primary: #1e293b;
+  --bg-secondary: #334155;
+  --bg-tertiary: #475569;
+  --bg-hover: #64748b;
+  
+  /* 文字颜色 */
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  
+  /* 边框颜色 */
+  --border-primary: #475569;
+  --border-secondary: #64748b;
+  
+  /* 阴影 */
+  --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-heavy: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
 }
 
-/* 全局样式 */
+/* ==================== 全局样式 ==================== */
+
+/* 基础样式重置 */
 * {
   box-sizing: border-box;
 }
 
+html {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+}
+
 body {
+  margin: 0;
+  padding: 0;
   background-color: var(--bg-secondary);
   color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 应用容器 */
+.app-container {
+  display: flex;
+  height: 100vh;
+  background-color: var(--bg-secondary);
+}
+
+/* 主内容区域 */
+.main-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  background-color: var(--bg-secondary);
+}
+
+/* 页面标题区域 */
+.page-header {
+  margin-bottom: 32px;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.page-description {
+  font-size: 16px;
+  color: var(--text-secondary);
 }
 
 /* 卡片样式 */
@@ -68,7 +455,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* 按钮样式 */
+/* 主要按钮样式 */
 .btn-primary {
   background-color: var(--accent-primary);
   color: white;
@@ -83,6 +470,7 @@ body {
   background-color: var(--accent-hover);
 }
 
+/* 次要按钮样式 */
 .btn-secondary {
   background-color: var(--bg-tertiary);
   color: var(--text-primary);
@@ -113,7 +501,9 @@ body {
   border-color: var(--accent-primary);
 }
 
-/* 滚动条样式 */
+/* ==================== 滚动条样式 ==================== */
+
+/* Webkit浏览器滚动条样式 */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -133,7 +523,9 @@ body {
   background: var(--text-tertiary);
 }
 
-/* 过渡动画 */
+/* ==================== 过渡动画 ==================== */
+
+/* 淡入淡出动画 */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
@@ -144,6 +536,7 @@ body {
   opacity: 0;
 }
 
+/* 滑动动画 */
 .slide-enter-active,
 .slide-leave-active {
   transition: transform 0.3s ease;

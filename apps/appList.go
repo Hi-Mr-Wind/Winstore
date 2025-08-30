@@ -79,3 +79,21 @@ func (a *App) SelectByName(name string) model.BaseModel {
 		Data:    appLists,
 	}
 }
+
+// SelectClassify 查询分类
+func (a *App) SelectClassify() model.BaseModel {
+	classify := new(model.Classify)
+	classifyList, err := classify.SelectAll()
+	if err != nil {
+		return model.BaseModel{
+			Code:    1,
+			Message: err.Error(),
+			Data:    nil,
+		}
+	}
+	return model.BaseModel{
+		Code:    0,
+		Message: "success",
+		Data:    classifyList,
+	}
+}

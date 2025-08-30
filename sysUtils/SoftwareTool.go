@@ -142,6 +142,7 @@ func getInstalledSoftware() ([]softwareInfo, error) {
 // 在卸载软件完成之后，尝试删除注册表项
 // 如果卸载流程失败，则返回错误
 func UninstallSoftware(ctx context.Context, softwareName string) error {
+	fmt.Println("开始卸载软件：", softwareName)
 	softwareList, err := getInstalledSoftware()
 	if err != nil {
 		runtime.LogErrorf(ctx, "卸载软件失败！无法获取软件列表: %v\n", err)
@@ -149,8 +150,9 @@ func UninstallSoftware(ctx context.Context, softwareName string) error {
 	}
 	var software softwareInfo
 	for _, data := range softwareList {
+		fmt.Println(data.Name)
 		//找到软件信息后退出
-		if strings.EqualFold(data.Name, softwareName) {
+		if fmt.Sprintf("%-40s", truncateString(data.Name, 40)) == softwareName {
 			software = data
 			break
 		}
@@ -229,6 +231,7 @@ func UninstallSoftware(ctx context.Context, softwareName string) error {
 			//--暂时不再提供删除注册表项--
 
 			//}
+			runtime.EventsOff(ctx, "UninstallSoftware_"+softwareName)
 			return
 		}
 

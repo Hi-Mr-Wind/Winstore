@@ -8,6 +8,8 @@ type Classify struct {
 	ClassifyName string `gorm:"column:classify_name;type:text;not null"           json:"classify_name"`
 	// 父级分类
 	ParentLevel *string `gorm:"column:parent_level;type:text;index"               json:"parent_level,omitempty"`
+	// 图标
+	Icon *string `json:"icon,omitempty" gorm:"type:text;column:icon"`
 }
 
 // TableName 指定表名

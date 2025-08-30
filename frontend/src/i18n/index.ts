@@ -14,6 +14,7 @@ const zhCN = {
     search: '搜索',
     install: '获取',
     uninstall: '卸载',
+    uninstalling: '卸载中',
     favorite: '收藏',
     unfavorite: '取消收藏',
     viewAll: '查看全部',
@@ -24,12 +25,15 @@ const zhCN = {
     cancel: '取消',
     confirm: '确认',
     loading: '加载中...',
+    refresh: '刷新',
+    refreshing: '刷新中...',
     noData: '暂无数据',
     notFound: '未找到',
     error: '错误',
     success: '成功',
     warning: '警告',
-    info: '信息'
+    info: '信息',
+    actions: '操作'
   },
   home: {
     title: '发现精彩应用',
@@ -51,7 +55,8 @@ const zhCN = {
     title: '已安装软件',
     subtitle: '管理您已安装的应用',
     noData: '您还没有安装任何应用',
-    goDiscover: '去发现应用'
+    goDiscover: '去发现应用',
+    loadingDescription: '正在获取已安装的软件列表，请稍候...'
   },
   favorites: {
     title: '收藏室',
@@ -135,6 +140,7 @@ const zhCN = {
     startSearchDesc: '在搜索框中输入关键词来查找应用'
   },
   app: {
+    name: '应用名称',
     developer: '开发者',
     version: '版本',
     size: '大小',
@@ -145,7 +151,8 @@ const zhCN = {
     screenshots: '应用截图',
     noScreenshots: '暂无截图',
     notFound: '应用不存在',
-    backToHome: '返回首页'
+    backToHome: '返回首页',
+    publisher: '发布者'
   }
 }
 
@@ -163,6 +170,7 @@ const enUS = {
     search: 'Search',
     install: 'Get',
     uninstall: 'Uninstall',
+    uninstalling: 'Uninstalling',
     favorite: 'Favorite',
     unfavorite: 'Unfavorite',
     viewAll: 'View All',
@@ -173,12 +181,15 @@ const enUS = {
     cancel: 'Cancel',
     confirm: 'Confirm',
     loading: 'Loading...',
+    refresh: 'Refresh',
+    refreshing: 'Refreshing...',
     noData: 'No Data',
     notFound: 'Not Found',
     error: 'Error',
     success: 'Success',
     warning: 'Warning',
-    info: 'Info'
+    info: 'Info',
+    actions: 'Actions'
   },
   home: {
     title: 'Discover Amazing Apps',
@@ -200,7 +211,8 @@ const enUS = {
     title: 'Installed Apps',
     subtitle: 'Manage your installed applications',
     noData: 'You haven\'t installed any apps yet',
-    goDiscover: 'Discover Apps'
+    goDiscover: 'Discover Apps',
+    loadingDescription: 'Getting installed software list, please wait...'
   },
   favorites: {
     title: 'Favorites',
@@ -284,6 +296,7 @@ const enUS = {
     startSearchDesc: 'Enter keywords in the search box to find apps'
   },
   app: {
+    name: 'App Name',
     developer: 'Developer',
     version: 'Version',
     size: 'Size',
@@ -294,7 +307,8 @@ const enUS = {
     screenshots: 'Screenshots',
     noScreenshots: 'No screenshots available',
     notFound: 'App not found',
-    backToHome: 'Back to Home'
+    backToHome: 'Back to Home',
+    publisher: 'Publisher'
   }
 }
 

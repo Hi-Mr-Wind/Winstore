@@ -19,10 +19,12 @@ func main() {
 	app := apps.NewApp()
 	// 创建带有选项的应用程序
 	err := wails.Run(&options.App{
-		Title:    "win store",
-		Width:    1400,
-		Height:   980,
-		LogLevel: logger.DEBUG,
+		Title:     "WinStore",
+		Width:     1400,
+		Height:    780,
+		MinHeight: 630,
+		MinWidth:  730,
+		LogLevel:  logger.DEBUG,
 		//Logger:   logger.NewFileLogger("app.log"), // 可选：同时输出到文件
 		AssetServer: &assetserver.Options{
 			Assets: assets,
