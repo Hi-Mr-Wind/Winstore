@@ -37,38 +37,6 @@ onMounted(async () => {
       console.log('Go后端返回空分类数据，使用默认分类')
       // 如果Go后端没有数据，使用默认分类
       const defaultCategories: CategoryItem[] = [
-        {
-          id: 1,
-          name: '生产力',
-          icon: '💼',
-          count: 12,
-          description: '提高工作效率的工具',
-          color: '#4CAF50'
-        },
-        {
-          id: 2,
-          name: '开发工具',
-          icon: '💻',
-          count: 8,
-          description: '程序员必备的开发环境',
-          color: '#795548'
-        },
-        {
-          id: 3,
-          name: '网络工具',
-          icon: '🌐',
-          count: 15,
-          description: '网络浏览和通信工具',
-          color: '#3F51B5'
-        },
-        {
-          id: 4,
-          name: '娱乐',
-          icon: '🎵',
-          count: 20,
-          description: '音乐、视频、游戏等娱乐应用',
-          color: '#E91E63'
-        }
       ]
       appStore.setCategories(defaultCategories)
     }
@@ -76,22 +44,7 @@ onMounted(async () => {
     console.error('获取分类数据失败，使用默认分类:', error)
     // 出错时使用默认分类
     const fallbackCategories: CategoryItem[] = [
-      {
-        id: 1,
-        name: '生产力',
-        icon: '💼',
-        count: 12,
-        description: '提高工作效率的工具',
-        color: '#4CAF50'
-      },
-      {
-        id: 2,
-        name: '开发工具',
-        icon: '💻',
-        count: 8,
-        description: '程序员必备的开发环境',
-        color: '#795548'
-      }
+      
     ]
     appStore.setCategories(fallbackCategories)
   }

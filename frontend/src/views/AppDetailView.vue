@@ -41,6 +41,12 @@ const handleDownload = () => {
   }
 }
 
+// 处理图片加载错误
+const handleImageError = (event: Event) => {
+  const target = event.target as HTMLImageElement
+  target.src = 'https://via.placeholder.com/120' // 替换为默认图片
+}
+
 // 初始化数据
 onMounted(() => {
   // 如果应用数据为空，则初始化模拟数据
@@ -80,7 +86,12 @@ onMounted(() => {
         <div class="app-header">
           <!-- 应用图标 -->
           <div class="app-icon">
-            <el-avatar :size="120" :src="currentApp.icon" />
+            <img 
+              v-if="currentApp.icon && currentApp.icon !== ''" 
+              :src="currentApp.icon" 
+              :alt="currentApp.name"
+              @error="handleImageError"
+            />
           </div>
           
           <!-- 应用基本信息 -->

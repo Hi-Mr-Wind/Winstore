@@ -15,6 +15,7 @@ import { useI18n } from 'vue-i18n'
 import Sidebar from '@/components/Sidebar.vue'
 import AppCard from '@/components/AppCard.vue'
 import type { AppItem, CategoryItem } from '@/types/app'
+import { SelectPage, SelectByName } from '../../wailsjs/go/apps/App'
 
 const router = useRouter()
 const appStore = useAppStore()
@@ -23,9 +24,99 @@ const { t } = useI18n()
 // 搜索关键词
 const searchQuery = ref('')
 
+// 热门软件数据
+const popularApps = ref<AppItem[]>([])
+
+// 加载热门软件数据
+const loadPopularApps = async () => {
+  try {
+    console.log('[Home] 加载首页热门软件数据')
+    const response = await SelectPage(1, 3, '') // 只获取前3个
+    
+    console.log('[Home] SelectPage 返回:', response)
+    
+    // 解析返回数据
+    let data: any = response
+    if (response?.data) {
+      data = response.data
+    }
+    
+    if (data && data.list && Array.isArray(data.list)) {
+      // 转换为AppItem格式，使用正确的Go后端字段名称
+      popularApps.value = data.list.map((item: any, index: number) => ({
+        id: item.app_id || item.AppID || index + 1,
+        name: item.app_name || item.AppName || '未知软件',
+        developer: item.company || item.Company || '未知开发者',
+        icon: item.app_icon || item.AppIcon || 'https://via.placeholder.com/64x64?text=App',
+        installed: false,
+        description: item.brief_introduction || item.BriefIntroduction || '暂无描述',
+        category: item.classify || item.Classify || '未分类',
+        version: item.app_version || item.AppVersion || '未知版本',
+        size: '未知大小', // 后端没有提供大小字段
+        releaseDate: '', // 后端没有提供发布日期字段
+        lastUpdated: item.update_time || item.UpdateTime || '',
+        officialWebsite: item.official_website || item.OfficialWebsite || '',
+        downloadUrl: item.download_url || item.DownloadURL || ''
+      }))
+      
+      console.log(`[Home] 成功加载${popularApps.value.length}个热门软件`)
+    } else {
+      console.warn('[Home] 返回数据格式不正确:', data)
+      popularApps.value = []
+    }
+  } catch (error: any) {
+    console.error('[Home] 加载热门软件失败:', error)
+    popularApps.value = []
+  }
+}
+
 // 处理搜索
-const handleSearch = () => {
-  if (searchQuery.value.trim()) {
+const handleSearch = async () => {
+  if (!searchQuery.value.trim()) return
+  
+  try {
+    console.log('[Home] 搜索关键词:', searchQuery.value.trim())
+    const response = await SelectByName(searchQuery.value.trim())
+    
+    console.log('[Home] SelectByName 返回:', response)
+    
+    // 解析返回数据
+    let data: any = response
+    if (response?.data) {
+      data = response.data
+    }
+    
+    if (Array.isArray(data)) {
+      // 转换为AppItem格式并设置到store，使用正确的Go后端字段名称
+      const searchResults: AppItem[] = data.map((item: any, index: number) => ({
+        id: item.app_id || item.AppID || index + 1,
+        name: item.app_name || item.AppName || '未知软件',
+        developer: item.company || item.Company || '未知开发者',
+        icon: item.app_icon || item.AppIcon || 'https://via.placeholder.com/64x64?text=App',
+        installed: false, // 暂时设为false，后续可以检查是否已安装
+        description: item.brief_introduction || item.BriefIntroduction || '暂无描述',
+        category: item.classify || item.Classify || '未分类',
+        version: item.app_version || item.AppVersion || '未知版本',
+        size: '未知大小', // 后端没有提供大小字段
+        releaseDate: '', // 后端没有提供发布日期字段
+        lastUpdated: item.update_time || item.UpdateTime || '',
+        officialWebsite: item.official_website || item.OfficialWebsite || '',
+        downloadUrl: item.download_url || item.DownloadURL || ''
+      }))
+      
+      appStore.setApps(searchResults)
+      console.log(`[Home] 搜索完成，找到${searchResults.length}个结果`)
+      
+      // 跳转到搜索结果页面
+      router.push(`/search?q=${encodeURIComponent(searchQuery.value.trim())}`)
+    } else {
+      console.warn('[Home] 搜索结果不是数组:', data)
+      // 如果没有搜索结果，可以显示提示或跳转到搜索页面
+      router.push(`/search?q=${encodeURIComponent(searchQuery.value.trim())}`)
+    }
+  } catch (error: any) {
+    console.error('[Home] 搜索失败:', error)
+    // 搜索失败时也跳转到搜索页面，让用户看到错误提示
     router.push(`/search?q=${encodeURIComponent(searchQuery.value.trim())}`)
   }
 }
@@ -63,57 +154,8 @@ const handleViewAllPopular = () => {
 
 // 初始化数据
 onMounted(async () => {
-  // 如果应用数据为空，则初始化模拟数据
-  if (appStore.apps.length === 0) {
-    const mockApps: AppItem[] = [
-      {
-        id: 1,
-        name: 'Visual Studio Code',
-        developer: 'Microsoft Corporation',
-        icon: 'https://code.visualstudio.com/assets/images/code-stable.png',
-        installed: false,
-        description: '轻量级但功能强大的源代码编辑器，支持多种编程语言和丰富的扩展插件。',
-        category: '开发工具',
-        version: '1.85.0',
-        size: '85.2 MB',
-        releaseDate: '2023-12-01',
-        lastUpdated: '2023-12-15',
-        officialWebsite: 'https://code.visualstudio.com/',
-        downloadUrl: 'https://code.visualstudio.com/download'
-      },
-      {
-        id: 2,
-        name: 'Chrome',
-        developer: 'Google LLC',
-        icon: 'https://www.google.com/chrome/static/images/chrome-logo.svg',
-        installed: true,
-        description: '快速、安全、免费的网页浏览器',
-        category: '网络工具',
-        version: '120.0.6099.109',
-        size: '150.5 MB',
-        releaseDate: '2023-11-15',
-        lastUpdated: '2023-12-10',
-        officialWebsite: 'https://www.google.com/chrome/',
-        downloadUrl: 'https://www.google.com/chrome/download/'
-      },
-      {
-        id: 3,
-        name: 'Notion',
-        developer: 'Notion Labs Inc',
-        icon: 'https://www.notion.so/images/logo-ios.png',
-        installed: false,
-        description: '一体化工作空间，用于笔记、文档、项目和协作',
-        category: '生产力',
-        version: '2.1.0',
-        size: '120.8 MB',
-        releaseDate: '2023-11-20',
-        lastUpdated: '2023-12-05',
-        officialWebsite: 'https://www.notion.so/',
-        downloadUrl: 'https://www.notion.so/desktop'
-      }
-    ]
-    appStore.setApps(mockApps)
-  }
+  // 加载热门软件数据
+  await loadPopularApps()
 
   // 尝试从Go后端获取分类数据
   try {
@@ -126,38 +168,6 @@ onMounted(async () => {
       console.log('Go后端返回空分类数据，使用默认分类')
       // 如果Go后端没有数据，使用默认分类
       const defaultCategories: CategoryItem[] = [
-        {
-          id: 1,
-          name: '生产力',
-          icon: '💼',
-          count: 12,
-          description: '提高工作效率的工具',
-          color: '#4CAF50'
-        },
-        {
-          id: 2,
-          name: '开发工具',
-          icon: '💻',
-          count: 8,
-          description: '程序员必备的开发环境',
-          color: '#795548'
-        },
-        {
-          id: 3,
-          name: '网络工具',
-          icon: '🌐',
-          count: 15,
-          description: '网络浏览和通信工具',
-          color: '#3F51B5'
-        },
-        {
-          id: 4,
-          name: '娱乐',
-          icon: '🎵',
-          count: 20,
-          description: '音乐、视频、游戏等娱乐应用',
-          color: '#E91E63'
-        }
       ]
       appStore.setCategories(defaultCategories)
     }
@@ -214,7 +224,7 @@ onMounted(async () => {
       <div class="banner-section">
         <div class="banner-content">
           <h1 class="banner-title">{{ t('home.title') }}</h1>
-          <p v-if="t('home.subtitle')" class="banner-description">{{ t('home.subtitle') }}</p>
+          <p class="banner-description">{{ t('home.subtitle') }}</p>
           <el-button type="primary" size="large" @click="handleViewAllPopular">
             {{ t('common.explore') }}
           </el-button>
@@ -231,13 +241,16 @@ onMounted(async () => {
         </div>
         <div class="apps-grid">
           <AppCard
-            v-for="app in appStore.popularApps.slice(0, 6)"
+            v-for="app in popularApps"
             :key="app.id"
             :app="app"
             @click="handleAppClick"
             @install="handleAppInstall"
             @uninstall="handleAppUninstall"
             @favorite="handleAppFavorite"
+            :show-favorite="false"
+            :show-install="false"
+            :show-view="true"
           />
         </div>
       </div>
@@ -245,7 +258,17 @@ onMounted(async () => {
       <!-- 分类浏览区域 -->
       <div class="section">
         <h2 class="section-title">{{ t('home.browseByCategory') }}</h2>
-        <div v-if="appStore.categories.length > 0" class="categories-grid">
+        
+        <!-- 调试信息 -->
+        <div v-if="appStore.categories.length === 0" class="debug-info">
+          <p>分类数据为空，正在加载中...</p>
+        </div>
+        <!-- <div v-else class="debug-info">
+          <p>已加载 {{ appStore.categories.length }} 个分类</p>
+          <p>分类数据: {{ JSON.stringify(appStore.categories, null, 2) }}</p>
+        </div> -->
+        
+        <div class="categories-grid">
           <div
             v-for="category in appStore.categories"
             :key="category.id"
@@ -258,16 +281,6 @@ onMounted(async () => {
               <p class="category-count">{{ category.count }} {{ t('home.apps') }}</p>
             </div>
           </div>
-        </div>
-        <div v-else class="empty-categories">
-          <el-empty 
-            :image-size="120"
-            description="暂无分类数据"
-          >
-            <template #description>
-              <p>正在加载分类数据...</p>
-            </template>
-          </el-empty>
         </div>
       </div>
     </div>
@@ -297,128 +310,23 @@ onMounted(async () => {
 /* 横幅区域样式 */
 .banner-section {
   background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-  background-size: 200% 200%;
   border-radius: 16px;
   padding: 48px;
   margin-bottom: 40px;
   color: white;
   text-align: center;
-  position: relative;
-  overflow: hidden;
-  animation: gradientShift 8s ease-in-out infinite;
-  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3), 0 8px 16px rgba(139, 92, 246, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.banner-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-  animation: shimmer 3s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.banner-section::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  right: -50%;
-  bottom: -50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-  animation: rotate 20s linear infinite;
-  pointer-events: none;
-}
-
-.banner-content {
-  position: relative;
-  z-index: 2;
 }
 
 .banner-title {
   font-size: 36px;
   font-weight: 700;
   margin-bottom: 16px;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  animation: titleGlow 4s ease-in-out infinite;
 }
 
 .banner-description {
   font-size: 18px;
   margin-bottom: 24px;
   opacity: 0.9;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* 横幅按钮样式 */
-.banner-section .el-button {
-  position: relative;
-  z-index: 3;
-  background: rgba(255, 255, 255, 0.2) !important;
-  border: 2px solid rgba(255, 255, 255, 0.3) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-  animation: buttonPulse 2s ease-in-out infinite;
-}
-
-.banner-section .el-button:hover {
-  background: rgba(255, 255, 255, 0.3) !important;
-  border-color: rgba(255, 255, 255, 0.5) !important;
-  transform: translateY(-2px) scale(1.05) !important;
-  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3) !important;
-}
-
-/* 横幅动画效果 */
-@keyframes gradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-
-
-@keyframes shimmer {
-  0%, 100% {
-    transform: translateX(-100%);
-  }
-  50% {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes titleGlow {
-  0%, 100% {
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  }
-  50% {
-    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.2);
-  }
-}
-
-@keyframes buttonPulse {
-  0%, 100% {
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
-  }
-  50% {
-    box-shadow: 0 4px 25px rgba(255, 255, 255, 0.4);
-  }
 }
 
 /* 内容区域通用样式 */
@@ -451,6 +359,21 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 16px;
+}
+
+/* 调试信息样式 */
+.debug-info {
+  background-color: #f0f9ff;
+  border: 1px solid #0ea5e9;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #0369a1;
+}
+
+.debug-info p {
+  margin: 4px 0;
 }
 
 /* 分类卡片样式 */
@@ -490,19 +413,6 @@ onMounted(async () => {
 
 .category-count {
   font-size: 14px;
-  color: var(--text-secondary);
-}
-
-/* 空状态样式 */
-.empty-categories {
-  text-align: center;
-  padding: 40px 20px;
-  background-color: var(--bg-primary);
-  border-radius: 12px;
-  border: 1px solid var(--border-primary);
-}
-
-.empty-categories .el-empty__description {
   color: var(--text-secondary);
 }
 

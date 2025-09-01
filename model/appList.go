@@ -2,6 +2,7 @@ package model
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/google/uuid"
 )
@@ -69,6 +70,18 @@ func (appList *AppList) SelectAllPage(pageNum int, pageSize int, classify string
 	}
 }
 
+// Count 统计软件列表数据
+func (appList *AppList) Count(classify string) (int64, error) {
+	tx := DB.Model(appList)
+	var count int64
+	if classify == "" {
+		err := tx.Where("classify = ?", classify).Count(&count).Error
+		return count, err
+	}
+	err := tx.Count(&count).Error
+	return count, err
+}
+
 // UpdateData 更新软件列表数据
 // data:要更新的数据
 // 返回值：受影响的行数
@@ -85,6 +98,6 @@ func (appList *AppList) DeleteByID() error {
 // SelectByAppName 根据软件名称模糊查询软件列表数据
 func (appList *AppList) SelectByAppName() (*[]AppList, error) {
 	var appLists = new([]AppList)
-	err := DB.Where("app_name like %?%", appList.AppName).Find(appLists).Error
+	err := DB.Where("app_name like ?", fmt.Sprintf("%%%s%%", appList.AppName)).Find(appLists).Error
 	return appLists, err
 }

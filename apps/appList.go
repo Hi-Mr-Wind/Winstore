@@ -10,6 +10,16 @@ import (
 func (a *App) SelectPage(pageNum int, pageSize int, classify string) model.BaseModel {
 	applist := new(model.AppList)
 	page, err := applist.SelectAllPage(pageNum, pageSize, classify)
+	data := struct {
+		Count int64            `json:"count"`
+		List  *[]model.AppList `json:"list"`
+	}{}
+	count, err := applist.Count(classify)
+	if err != nil {
+		return model.BaseModel{}
+	}
+	data.Count = count
+	data.List = page
 	runtime.LogDebugf(a.ctx, "%v", page)
 	if err != nil {
 		return model.BaseModel{
@@ -21,7 +31,7 @@ func (a *App) SelectPage(pageNum int, pageSize int, classify string) model.BaseM
 	return model.BaseModel{
 		Code:    0,
 		Message: "success",
-		Data:    page,
+		Data:    data,
 	}
 }
 

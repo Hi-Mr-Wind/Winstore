@@ -38,7 +38,7 @@ const openExternal = (url?: string) => {
 
 const contactInfo = {
   email: 'support@winstore.com',
-  website: 'https://winstore.com/support',
+  website: 'https://winstore.sms4j.com',
   phone: 'https://gitee.com/MR-wind/win-store'
 }
 </script>
@@ -83,8 +83,8 @@ const contactInfo = {
               <h3>邮箱支持</h3>
               <p>{{ contactInfo.email }}</p>
             </div>
-            <div class="contact-item">
-              <h3>在线支持</h3>
+            <div class="contact-item" @click="openExternal(contactInfo.website)">
+              <h3>官方网站</h3>
               <p>{{ contactInfo.website }}</p>
             </div>
             <div class="contact-item" @click="openExternal(contactInfo.phone)">

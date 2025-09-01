@@ -18,12 +18,14 @@ interface Props {
   app: AppItem                    // 应用数据对象
   showFavorite?: boolean          // 是否显示收藏按钮
   showInstall?: boolean           // 是否显示安装按钮
+  showView?: boolean              // 是否显示查看按钮
 }
 
 // 设置默认属性值
 const props = withDefaults(defineProps<Props>(), {
   showFavorite: true,
-  showInstall: true
+  showInstall: true,
+  showView: false
 })
 
 // 组件事件定义
@@ -61,13 +63,24 @@ const handleUninstall = () => {
 const handleFavorite = () => {
   emit('favorite', props.app)
 }
+
+// 处理图片加载失败
+const handleImageError = (event: Event) => {
+  const target = event.target as HTMLImageElement;
+  target.src = 'https://via.placeholder.com/60'; // 设置一个默认图片
+};
 </script>
 
 <template>
   <div class="app-card" @click="handleClick">
     <!-- 应用图标区域 -->
     <div class="app-icon">
-      <el-avatar :size="60" :src="app.icon" />
+      <img 
+        :src="app.icon" 
+        :alt="app.name"
+        class="app-icon-img"
+        @error="handleImageError"
+      />
     </div>
     
     <!-- 应用信息区域 -->
@@ -87,6 +100,16 @@ const handleFavorite = () => {
         :type="isFavorited ? 'warning' : 'default'"
         @click.stop="handleFavorite"
       />
+      
+      <!-- 查看按钮 -->
+      <el-button
+        v-if="showView"
+        type="primary"
+        size="small"
+        @click.stop="handleClick"
+      >
+        查看
+      </el-button>
       
       <!-- 安装/卸载按钮 -->
       <el-button
@@ -126,6 +149,14 @@ const handleFavorite = () => {
 .app-icon {
   display: flex;
   justify-content: center;
+}
+
+/* 应用图标图片样式 */
+.app-icon-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
 }
 
 /* 应用信息区域 */

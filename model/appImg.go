@@ -4,7 +4,6 @@ import "time"
 
 // AppImg 应用图片
 type AppImg struct {
-	ID string `json:"id" gorm:"type:text;primaryKey;column:id"`
 	// 应用ID
 	AppID string `json:"appId" gorm:"type:text;not null;column:app_id;index"`
 	// 图片URL

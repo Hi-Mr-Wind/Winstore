@@ -24,3 +24,7 @@ func (configs *Configs) SelectByKey() error {
 func (configs *Configs) UpdateByKey() {
 	comm.AppCache.Set(configs.Key, configs.Value, 0)
 }
+
+func (configs *Configs) InsertData() {
+	comm.AppCache.Set(configs.Key, configs.Value, 0)
+}

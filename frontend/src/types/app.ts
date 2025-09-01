@@ -74,4 +74,5 @@ export interface GoClassify {
   classify_name: string            // 分类名称
   parent_level?: string            // 父级分类（可选）
   icon?: string                    // 分类图标
+  count?: number                   // 该分类下的应用数量
 }

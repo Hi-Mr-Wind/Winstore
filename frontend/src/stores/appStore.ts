@@ -201,15 +201,25 @@ export const useAppStore = defineStore('app', () => {
         return []
       }
       
-      // 转换为CategoryItem格式，优先使用后端返回的icon
-      const convertedCategories: CategoryItem[] = goCategories.map((goCategory, index) => ({
-        id: index + 1,
-        name: goCategory.classify_name,
-        icon: goCategory.icon || getCategoryIcon(goCategory.classify_name), // 优先使用后端返回的图标
-        count: 0, // 暂时设为0，后续可以根据实际应用数量更新
-        description: `${goCategory.classify_name}分类`,
-        color: getCategoryColor(goCategory.classify_name) // 根据分类名称获取主题色
-      }))
+      // 转换为CategoryItem格式，优先使用后端返回的icon和count
+      const convertedCategories: CategoryItem[] = goCategories.map((goCategory, index) => {
+        console.log(`[Store] 处理分类 ${goCategory.classify_name}:`, {
+          id: goCategory.classify_id,
+          name: goCategory.classify_name,
+          icon: goCategory.icon,
+          count: goCategory.count,
+          hasCount: 'count' in goCategory
+        })
+        
+        return {
+          id: parseInt(goCategory.classify_id) || index + 1, // 使用后端返回的分类ID
+          name: goCategory.classify_name,
+          icon: goCategory.icon || getCategoryIcon(goCategory.classify_name), // 优先使用后端返回的图标
+          count: goCategory.count || 0, // 使用后端返回的应用数量
+          description: `${goCategory.classify_name}分类`,
+          color: getCategoryColor(goCategory.classify_name) // 根据分类名称获取主题色
+        }
+      })
       
       console.log('转换后的分类数据:', convertedCategories)
       return convertedCategories
