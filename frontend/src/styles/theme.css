@@ -335,6 +335,7 @@ body .el-dialog {
 :root {
   /* 主色调 */
   --accent-primary: #3b82f6;
+  --accent-secondary: #8b5cf6;
   --accent-hover: #2563eb;
   --accent-active: #1d4ed8;
   
@@ -363,6 +364,7 @@ body .el-dialog {
 .dark {
   /* 主色调 */
   --accent-primary: #60a5fa;
+  --accent-secondary: #a78bfa;
   --accent-hover: #3b82f6;
   --accent-active: #2563eb;
   

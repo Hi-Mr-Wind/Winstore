@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { Search, Grid } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
 import { useAppStore } from '@/stores/appStore'
 import { useI18n } from 'vue-i18n'
 import Sidebar from '@/components/Sidebar.vue'
@@ -117,27 +117,72 @@ onMounted(async () => {
 
   // 尝试从Go后端获取分类数据
   try {
-    console.log('开始尝试从Go后端获取分类数据...')
-    
-    // 检查Wails环境
-    if (typeof window !== 'undefined' && window.go && window.go.apps && window.go.apps.App) {
-      console.log('Wails环境检测成功，window.go对象存在')
-      
-      const wailsCategories = await appStore.fetchCategoriesFromWails()
-      if (wailsCategories.length > 0) {
-        console.log('成功从Go后端获取分类数据:', wailsCategories)
-        appStore.setCategories(wailsCategories)
-      } else {
-        console.log('从Go后端获取分类数据失败，分类列表为空')
-        appStore.setCategories([]) // 设置为空数组，显示空状态
-      }
+    console.log('正在从Go后端获取分类数据...')
+    const categories = await appStore.fetchCategoriesFromWails()
+    if (categories.length > 0) {
+      console.log('成功从Go后端获取分类数据:', categories)
+      appStore.setCategories(categories)
     } else {
-      console.log('Wails环境检测失败，分类列表为空')
-      appStore.setCategories([]) // 设置为空数组，显示空状态
+      console.log('Go后端返回空分类数据，使用默认分类')
+      // 如果Go后端没有数据，使用默认分类
+      const defaultCategories: CategoryItem[] = [
+        {
+          id: 1,
+          name: '生产力',
+          icon: '💼',
+          count: 12,
+          description: '提高工作效率的工具',
+          color: '#4CAF50'
+        },
+        {
+          id: 2,
+          name: '开发工具',
+          icon: '💻',
+          count: 8,
+          description: '程序员必备的开发环境',
+          color: '#795548'
+        },
+        {
+          id: 3,
+          name: '网络工具',
+          icon: '🌐',
+          count: 15,
+          description: '网络浏览和通信工具',
+          color: '#3F51B5'
+        },
+        {
+          id: 4,
+          name: '娱乐',
+          icon: '🎵',
+          count: 20,
+          description: '音乐、视频、游戏等娱乐应用',
+          color: '#E91E63'
+        }
+      ]
+      appStore.setCategories(defaultCategories)
     }
   } catch (error) {
-    console.error('获取分类数据时出错，分类列表为空:', error)
-    appStore.setCategories([]) // 设置为空数组，显示空状态
+    console.error('获取分类数据失败，使用默认分类:', error)
+    // 出错时使用默认分类
+    const fallbackCategories: CategoryItem[] = [
+      {
+        id: 1,
+        name: '生产力',
+        icon: '💼',
+        count: 12,
+        description: '提高工作效率的工具',
+        color: '#4CAF50'
+      },
+      {
+        id: 2,
+        name: '开发工具',
+        icon: '💻',
+        count: 8,
+        description: '程序员必备的开发环境',
+        color: '#795548'
+      }
+    ]
+    appStore.setCategories(fallbackCategories)
   }
 })
 </script>
@@ -169,7 +214,7 @@ onMounted(async () => {
       <div class="banner-section">
         <div class="banner-content">
           <h1 class="banner-title">{{ t('home.title') }}</h1>
-          <p class="banner-description">{{ t('home.subtitle') }}</p>
+          <p v-if="t('home.subtitle')" class="banner-description">{{ t('home.subtitle') }}</p>
           <el-button type="primary" size="large" @click="handleViewAllPopular">
             {{ t('common.explore') }}
           </el-button>
@@ -216,11 +261,11 @@ onMounted(async () => {
         </div>
         <div v-else class="empty-categories">
           <el-empty 
-            :description="t('home.noCategories')" 
             :image-size="120"
+            description="暂无分类数据"
           >
-            <template #image>
-              <el-icon class="empty-icon"><Grid /></el-icon>
+            <template #description>
+              <p>正在加载分类数据...</p>
             </template>
           </el-empty>
         </div>
@@ -251,7 +296,8 @@ onMounted(async () => {
 
 /* 横幅区域样式 */
 .banner-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background-size: 200% 200%;
   border-radius: 16px;
   padding: 48px;
   margin-bottom: 40px;
@@ -259,7 +305,9 @@ onMounted(async () => {
   text-align: center;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  animation: gradientShift 8s ease-in-out infinite;
+  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3), 0 8px 16px rgba(139, 92, 246, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .banner-section::before {
@@ -269,57 +317,108 @@ onMounted(async () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-  opacity: 0.3;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  animation: shimmer 3s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .banner-section::after {
   content: '';
   position: absolute;
   top: -50%;
+  left: -50%;
   right: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-  animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(180deg); }
+  bottom: -50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+  pointer-events: none;
 }
 
 .banner-content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .banner-title {
   font-size: 36px;
   font-weight: 700;
   margin-bottom: 16px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  animation: titleGlow 4s ease-in-out infinite;
 }
 
 .banner-description {
   font-size: 18px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   opacity: 0.9;
-  line-height: 1.6;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* 横幅按钮样式 */
 .banner-section .el-button {
-  font-size: 16px;
-  padding: 12px 32px;
-  border-radius: 8px;
-  font-weight: 600;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  transition: all 0.3s ease;
+  position: relative;
+  z-index: 3;
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  animation: buttonPulse 2s ease-in-out infinite;
 }
 
 .banner-section .el-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  background: rgba(255, 255, 255, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* 横幅动画效果 */
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+
+
+@keyframes shimmer {
+  0%, 100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes titleGlow {
+  0%, 100% {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.2);
+  }
+}
+
+@keyframes buttonPulse {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(255, 255, 255, 0.4);
+  }
 }
 
 /* 内容区域通用样式 */
@@ -396,19 +495,15 @@ onMounted(async () => {
 
 /* 空状态样式 */
 .empty-categories {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 60px 20px;
+  text-align: center;
+  padding: 40px 20px;
   background-color: var(--bg-primary);
   border-radius: 12px;
-  border: 2px dashed var(--border-primary);
+  border: 1px solid var(--border-primary);
 }
 
-.empty-icon {
-  font-size: 80px;
-  color: var(--text-tertiary);
-  margin-bottom: 16px;
+.empty-categories .el-empty__description {
+  color: var(--text-secondary);
 }
 
 /* 响应式设计 */

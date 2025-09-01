@@ -39,8 +39,6 @@ const menuItems = [
   { index: 'tools', icon: Box, label: t('common.tools'), path: '/tools' }
 ]
 
-
-
 // 底部菜单项配置
 const bottomMenuItems = [
   { index: 'settings', icon: Setting, label: t('common.settings'), path: '/settings' },

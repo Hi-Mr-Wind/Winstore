@@ -27,7 +27,7 @@ const helpTopics = [
 const contactInfo = {
   email: 'support@winstore.com',
   website: 'https://winstore.com/support',
-  phone: '400-123-4567'
+  phone: 'https://gitee.com/MR-wind/win-store'
 }
 </script>
 
@@ -73,7 +73,7 @@ const contactInfo = {
               <p>{{ contactInfo.website }}</p>
             </div>
             <div class="contact-item">
-              <h3>电话支持</h3>
+              <h3>仓库地址</h3>
               <p>{{ contactInfo.phone }}</p>
             </div>
           </div>

@@ -16,6 +16,28 @@ export namespace model {
 	        this.data = source["data"];
 	    }
 	}
+	export class Collect {
+	    id: string;
+	    appName: string;
+	    downloadUrl?: string;
+	    appUrl?: string;
+	    appIcon?: string;
+	    createTime?: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new Collect(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.appName = source["appName"];
+	        this.downloadUrl = source["downloadUrl"];
+	        this.appUrl = source["appUrl"];
+	        this.appIcon = source["appIcon"];
+	        this.createTime = source["createTime"];
+	    }
+	}
 
 }
 

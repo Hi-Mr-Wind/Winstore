@@ -26,12 +26,6 @@ const categoryApps = computed(() => {
 onMounted(() => {
   if (appStore.categories.length === 0) {
     const mockCategories: CategoryItem[] = [
-      { id: 1, name: '生产力', icon: '💼', count: 156 },
-      { id: 2, name: '社交', icon: '💬', count: 89 },
-      { id: 3, name: '游戏', icon: '🎮', count: 234 },
-      { id: 4, name: '娱乐', icon: '🎵', count: 123 },
-      { id: 5, name: '教育', icon: '📚', count: 67 },
-      { id: 6, name: '工具', icon: '🔧', count: 98 }
     ]
     appStore.setCategories(mockCategories)
   }

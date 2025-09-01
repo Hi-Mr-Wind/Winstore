@@ -37,7 +37,7 @@ const zhCN = {
   },
   home: {
     title: '发现精彩应用',
-    subtitle: '探索为 Windows 11 打造的精选应用和游戏，提升您的生产力和娱乐体验',
+    subtitle: '',
     popularApps: '热门软件',
     browseByCategory: '按分类浏览',
     apps: '个应用'
