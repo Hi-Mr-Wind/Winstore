@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import Sidebar from '@/components/Sidebar.vue'
+import { BrowserOpenURL } from '../../wailsjs/runtime/runtime'
 
 const helpTopics = [
   {
     id: 1,
     title: '如何安装应用？',
-    content: '在应用详情页面点击"获取"按钮，系统会自动下载并安装应用。'
+    content: '在应用详情页面点击"下载"按钮，系统会自动下载安装包，也可以点击官方网站按钮，跳转到官方网站进行下载。'
   },
   {
     id: 2,
     title: '如何卸载应用？',
-    content: '在已安装软件页面找到要卸载的应用，点击"已安装"按钮即可卸载。'
+    content: '在已安装软件页面找到要卸载的应用，点击"卸载"按钮即可卸载。'
   },
   {
     id: 3,
     title: '如何收藏应用？',
-    content: '在应用卡片上点击星形图标即可收藏应用，收藏的应用会出现在收藏室中。'
+    content: '收藏室用于在您的本地保存您喜欢的WinStore中没有的应用，方便您随时查看和使用。'
   },
   {
     id: 4,
@@ -23,6 +24,17 @@ const helpTopics = [
     content: '在首页或任何页面的搜索框中输入应用名称、开发者或关键词即可搜索。'
   }
 ]
+
+const openExternal = (url?: string) => {
+  if (!url) return
+  try {
+    BrowserOpenURL(url)
+  } catch (e) {
+    console.error('[Favorites] 打开外部链接失败:', e)
+    // 兜底使用 window.open
+    try { window.open(url, '_blank') } catch {}
+  }
+}
 
 const contactInfo = {
   email: 'support@winstore.com',
@@ -64,6 +76,9 @@ const contactInfo = {
         <div class="help-section">
           <h2 class="section-title">联系我们</h2>
           <div class="contact-info">
+            <p>如果觉得WinStore对您有帮助，请给我们点一个Star</p>
+          </div>
+          <div class="contact-info">
             <div class="contact-item">
               <h3>邮箱支持</h3>
               <p>{{ contactInfo.email }}</p>
@@ -72,7 +87,7 @@ const contactInfo = {
               <h3>在线支持</h3>
               <p>{{ contactInfo.website }}</p>
             </div>
-            <div class="contact-item">
+            <div class="contact-item" @click="openExternal(contactInfo.phone)">
               <h3>仓库地址</h3>
               <p>{{ contactInfo.phone }}</p>
             </div>
