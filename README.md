@@ -31,6 +31,10 @@ winstore是一个Windows软件下载工具，基于Wails开发，使用Go语言�
 7. 装机换机一键恢复软件环境（计划中）
 8. 软件关闭广告教程（计划中）
 9. 软件资源共享 （计划中）
+## 软件截图
+<img src="./WinStoreImgs/img.png" alt="首页">  
+<img src="./WinStoreImgs/img_1.png" alt="软件分类">  
+<img src="./WinStoreImgs/img_2.png" alt="已安装软件">  
 
 ### 开发
 截至目前wails官方默认cli仅支持到go1.23版本，需手动修改go.mod文件，将go.mod中的go版本改为1.25。并设置环境变量，用于启动go1.25的jsonV2新特性。  
