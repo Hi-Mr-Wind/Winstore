@@ -8,6 +8,14 @@ winstore是一个Windows软件下载工具，基于Wails开发，使用Go语言�
 使用MIT协议开源。  
 软件库由社区分享维护，也可以自行添加软件进入本地库用于收藏。
 
+## 参与
+我们欢迎任何形式的贡献，包括但不限于：
+1. 添加软件到软件库
+2. 提交错误修复
+3. 新功能建议
+4. 新功能开发
+5. 提出问题
+
 ## 市面上以及有了很多的软件商店，Windows也有自己的应用商店，为什么要制作WinStore
 1. 避免无良网站，恶意软件，流氓插件，下载软件（如：某软件园下载的软件）。
 小白最折磨的莫过于，下载个软件，结果打开发现屏幕出现： 是兄弟就来砍我！然后卸载不掉，各种弹窗广告
@@ -36,9 +44,23 @@ winstore是一个Windows软件下载工具，基于Wails开发，使用Go语言�
 <img src="./WinStoreImgs/img_1.png" alt="软件分类">  
 <img src="./WinStoreImgs/img_2.png" alt="已安装软件">  
 
+## 软件库贡献
+目前项目处于初步阶段，还未建立单独的软件贡献库，如果您是开发者，可以使用数据库管理工具，在`lib/winstore.db`中添加新的数据，并PR到dev分支。
+如果您不是开发者，或不愿直接添加软件，可以在Issues中提一个软件贡献，并等待审核添加。
+Issues中软件贡献格式为：
+软件名称：XXX
+软件官网：XXX
+软件图标：图标链接或图片文件
+软件介绍：XXX
+软件下载地址：https://XXX
+
 ### 开发
+1. fork项目
+2. 添加或修改代码
+3. 提交Pull Request到dev分支
+4. 等待审核合并
 截至目前wails官方默认cli仅支持到go1.23版本，需手动修改go.mod文件，将go.mod中的go版本改为1.25。并设置环境变量，用于启动go1.25的jsonV2新特性。  
 开发启动脚本  
 `$env:GOEXPERIMENT="jsonv2";  wails dev`  
 开发编译脚本  
-`$env:GOEXPERIMENT="jsonv2";  wails build`
+`$env:GOEXPERIMENT="jsonv2";  wails build -clean`
