@@ -52,14 +52,14 @@ const performSearch = async (query: string) => {
     if (response?.data) {
       data = response.data
       console.log('[Search] 使用 response.data:', data)
-    } else if (response?.Data) {
-      data = response.Data
+    } else if ((response as any)?.Data) {
+      data = (response as any).Data
       console.log('[Search] 使用 response.Data:', data)
-    } else if (response?.list) {
-      data = response.list
+    } else if ((response as any)?.list) {
+      data = (response as any).list
       console.log('[Search] 使用 response.list:', data)
-    } else if (response?.List) {
-      data = response.List
+    } else if ((response as any)?.List) {
+      data = (response as any).List
       console.log('[Search] 使用 response.List:', data)
     }
     

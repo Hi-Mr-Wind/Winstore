@@ -24,7 +24,7 @@ export interface AppItem {
 
 // 分类项类型定义
 export interface CategoryItem {
-  id: number                    // 分类唯一标识符
+  id: string | number           // 分类唯一标识符（后端返回为字符串，这里兼容数字）
   name: string                  // 分类名称
   icon: string                  // 分类图标（emoji或URL）
   count: number                 // 该分类下的应用数量

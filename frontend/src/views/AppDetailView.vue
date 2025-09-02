@@ -9,34 +9,92 @@
   - 移除评分系统，专注于应用信息展示
 -->
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useAppStore } from '@/stores/appStore'
 import { useI18n } from 'vue-i18n'
 import Sidebar from '@/components/Sidebar.vue'
 import type { AppItem } from '@/types/app'
+import { SelectByID } from '../../wailsjs/go/apps/App'
+import { BrowserOpenURL } from '../../wailsjs/runtime/runtime.js'
 
 const route = useRoute()
 const router = useRouter()
-const appStore = useAppStore()
 const { t } = useI18n()
 
-// 获取当前应用数据
-const currentApp = computed(() => {
-  const appId = parseInt(route.params.id as string)
-  return appStore.apps.find(app => app.id === appId)
+// 详情数据
+const currentApp = ref<AppItem | null>(null)
+const screenshots = ref<string[]>([])
+const isLoading = ref(false)
+const errorMessage = ref('')
+
+const mapToAppItem = (item: any): AppItem => ({
+  id: Number(item.app_id || item.AppID || item.id || 0),
+  name: item.app_name || item.AppName || item.name || '未知软件',
+  developer: item.company || item.Company || item.developer || '未知开发者',
+  icon: item.app_icon || item.AppIcon || item.icon || '',
+  installed: false,
+  description: item.brief_introduction || item.BriefIntroduction || item.description || '',
+  category: item.classify || item.Classify || item.category || '未分类',
+  version: item.app_version || item.AppVersion || item.version || '',
+  size: '',
+  releaseDate: '',
+  lastUpdated: item.update_time || item.UpdateTime || '',
+  officialWebsite: item.official_website || item.OfficialWebsite || '',
+  downloadUrl: item.download_url || item.DownloadURL || ''
 })
 
+const fetchDetail = async () => {
+  const idParam = route.params.id as string
+  if (!idParam) return
+  isLoading.value = true
+  errorMessage.value = ''
+  currentApp.value = null
+  screenshots.value = []
+  try {
+    const resp = await SelectByID(idParam)
+    const code = (resp as any)?.code
+    if (code !== 0) {
+      errorMessage.value = (resp as any)?.message || '获取应用详情失败'
+      return
+    }
+    // 兼容 data/Data
+    const data = (resp as any)?.data ?? (resp as any)?.Data
+    if (!data) {
+      errorMessage.value = '返回数据为空'
+      return
+    }
+    const appList = (data as any).appList ?? (data as any).AppList
+    const imgList = (data as any).img ?? (data as any).Img
+    if (appList) {
+      currentApp.value = mapToAppItem(appList)
+    }
+    if (Array.isArray(imgList)) {
+      // 兼容字段名 url/Url/img/imgUrl 等
+      screenshots.value = imgList.map((it: any) => it.url || it.Url || it.img || it.imgUrl || it.ImgUrl).filter(Boolean)
+    }
+  } catch (e: any) {
+    errorMessage.value = e?.message || '获取应用详情异常'
+  } finally {
+    isLoading.value = false
+  }
+}
+
 // 处理官方网站按钮点击 - 在新窗口打开官方网站
-const handleOfficialWebsite = () => {
-  if (currentApp.value?.officialWebsite) {
+const handleOfficialWebsite = async () => {
+  if (!currentApp.value?.officialWebsite) return
+  try {
+    await BrowserOpenURL(currentApp.value.officialWebsite)
+  } catch (e) {
     window.open(currentApp.value.officialWebsite, '_blank')
   }
 }
 
 // 处理下载按钮点击 - 在新窗口打开下载页面
-const handleDownload = () => {
-  if (currentApp.value?.downloadUrl) {
+const handleDownload = async () => {
+  if (!currentApp.value?.downloadUrl) return
+  try {
+    await BrowserOpenURL(currentApp.value.downloadUrl)
+  } catch (e) {
     window.open(currentApp.value.downloadUrl, '_blank')
   }
 }
@@ -47,30 +105,9 @@ const handleImageError = (event: Event) => {
   target.src = 'https://via.placeholder.com/120' // 替换为默认图片
 }
 
-// 初始化数据
-onMounted(() => {
-  // 如果应用数据为空，则初始化模拟数据
-  if (appStore.apps.length === 0) {
-    const mockApps: AppItem[] = [
-      {
-        id: 1,
-        name: 'Visual Studio Code',
-        developer: 'Microsoft Corporation',
-        icon: 'https://code.visualstudio.com/assets/images/code-stable.png',
-        installed: false,
-        description: '轻量级但功能强大的源代码编辑器，支持多种编程语言和丰富的扩展插件。',
-        category: '开发工具',
-        version: '1.85.0',
-        size: '85.2 MB',
-        releaseDate: '2023-12-01',
-        lastUpdated: '2023-12-15',
-        officialWebsite: 'https://code.visualstudio.com/',
-        downloadUrl: 'https://code.visualstudio.com/download'
-      }
-    ]
-    appStore.setApps(mockApps)
-  }
-})
+// 初始化与路由变化时拉取详情
+onMounted(fetchDetail)
+watch(() => route.params.id, fetchDetail)
 </script>
 
 <template>
@@ -108,7 +145,7 @@ onMounted(() => {
                 size="large"
                 @click="handleOfficialWebsite"
               >
-                {{ t('app.officialWebsite') }}
+                官方网站
               </el-button>
               
               <!-- 下载按钮 -->
@@ -118,7 +155,7 @@ onMounted(() => {
                 size="large"
                 @click="handleDownload"
               >
-                {{ t('app.download') }}
+                立即下载
               </el-button>
             </div>
           </div>
@@ -128,26 +165,18 @@ onMounted(() => {
         <div class="app-details">
           <!-- 应用信息区域 -->
           <div class="detail-section">
-            <h2>{{ t('app.appInfo') }}</h2>
+            <h2>应用信息</h2>
             <div class="detail-grid">
               <div class="detail-item">
-                <span class="label">{{ t('app.version') }}：</span>
-                <span>{{ currentApp.version || '1.0.0' }}</span>
+                <span class="label">版本：</span>
+                <span>{{ currentApp.version || '未知' }}</span>
               </div>
               <div class="detail-item">
-                <span class="label">{{ t('app.size') }}：</span>
-                <span>{{ currentApp.size || '未知' }}</span>
-              </div>
-              <div class="detail-item">
-                <span class="label">{{ t('app.category') }}：</span>
+                <span class="label">分类：</span>
                 <span>{{ currentApp.category || '未分类' }}</span>
               </div>
               <div class="detail-item">
-                <span class="label">{{ t('app.releaseDate') }}：</span>
-                <span>{{ currentApp.releaseDate || '未知' }}</span>
-              </div>
-              <div class="detail-item">
-                <span class="label">{{ t('app.lastUpdated') }}：</span>
+                <span class="label">最后更新：</span>
                 <span>{{ currentApp.lastUpdated || '未知' }}</span>
               </div>
             </div>
@@ -155,15 +184,28 @@ onMounted(() => {
 
           <!-- 应用描述区域 -->
           <div class="detail-section">
-            <h2>{{ t('app.description') }}</h2>
+            <h2>应用描述</h2>
             <p class="app-description">{{ currentApp.description }}</p>
           </div>
 
           <!-- 应用截图区域 -->
           <div class="detail-section">
-            <h2>{{ t('app.screenshots') }}</h2>
+            <h2>应用截图</h2>
             <div class="screenshots">
-              <el-empty :description="t('app.noScreenshots')" />
+              <template v-if="screenshots.length > 0">
+                <el-image
+                  v-for="(img, idx) in screenshots"
+                  :key="idx"
+                  :src="img"
+                  fit="cover"
+                  :preview-src-list="screenshots"
+                  :initial-index="idx"
+                  preview-teleported
+                  lazy
+                  class="screenshot"
+                />
+              </template>
+              <el-empty v-else :description="t('app.noScreenshots')" />
             </div>
           </div>
         </div>
@@ -172,10 +214,10 @@ onMounted(() => {
       <!-- 应用不存在时的空状态 -->
       <el-empty 
         v-else 
-        :description="t('app.notFound')"
+        :description="errorMessage || '应用不存在'"
       >
         <el-button type="primary" @click="router.push('/')">
-          {{ t('app.backToHome') }}
+          返回首页
         </el-button>
       </el-empty>
     </div>
@@ -274,21 +316,25 @@ onMounted(() => {
 /* 详情信息网格布局 */
 .detail-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  column-gap: 24px;
+  row-gap: 12px;
 }
 
 /* 详情项样式 */
 .detail-item {
   display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
 }
 
 /* 详情项标签样式 */
 .detail-item .label {
   font-weight: 600;
   color: var(--text-secondary);
+  min-width: 72px;
+  text-align: right;
 }
 
 /* 应用描述样式 */
@@ -301,9 +347,16 @@ onMounted(() => {
 /* 截图区域样式 */
 .screenshots {
   min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.screenshot {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--border-primary);
 }
 
 /* 响应式设计 */

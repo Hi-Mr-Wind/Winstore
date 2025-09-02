@@ -51,6 +51,16 @@ func (a *App) SelectByID(id string) model.BaseModel {
 			Data:    nil,
 		}
 	}
+	classify := new(model.Classify)
+	classify.ClassifyID = *applist.Classify
+	byID, err := classify.SelectByID()
+	if err != nil {
+		return model.BaseModel{
+			Code:    1,
+			Message: err.Error(),
+		}
+	}
+	applist.Classify = &byID
 	// 查询软件图片
 	appImg := new(model.AppImg)
 	appImg.AppID = id

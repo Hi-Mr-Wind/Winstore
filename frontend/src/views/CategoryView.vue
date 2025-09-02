@@ -40,37 +40,58 @@ const loadCategorySoftware = async (page: number = 1) => {
     
     console.log('[Category] SelectPage 返回:', response)
     
-    // 解析返回数据
+    // 解析返回数据（兼容多种后端字段）
     let data: any = response
     if (response?.data) {
       data = response.data
+    } else if ((response as any)?.Data) {
+      data = (response as any).Data
     }
-    
-    if (data && data.list && Array.isArray(data.list)) {
-      // 转换为AppItem格式，使用正确的Go后端字段名称
-      softwareList.value = data.list.map((item: any, index: number) => ({
-        id: item.app_id || item.AppID || index + 1,
-        name: item.app_name || item.AppName || '未知软件',
-        developer: item.company || item.Company || '未知开发者',
-        icon: item.app_icon || item.AppIcon || 'https://via.placeholder.com/64x64?text=App',
-        installed: false, // 暂时设为false，后续可以检查是否已安装
-        description: item.brief_introduction || item.BriefIntroduction || '暂无描述',
-        category: currentCategory.value?.name || '未分类',
-        version: item.app_version || item.AppVersion || '未知版本',
-        size: '未知大小', // 后端没有提供大小字段
-        releaseDate: '', // 后端没有提供发布日期字段
-        lastUpdated: item.update_time || item.UpdateTime || '',
-        officialWebsite: item.official_website || item.OfficialWebsite || '',
-        downloadUrl: item.download_url || item.DownloadURL || ''
-      }))
-      
-      // 使用后端返回的总数
-      total.value = data.count || 0
+
+    const toAppItem = (item: any, index: number): AppItem => ({
+      id: item.app_id || item.AppID || item.id || index + 1,
+      name: item.app_name || item.AppName || item.name || '未知软件',
+      developer: item.company || item.Company || item.developer || '未知开发者',
+      icon: item.app_icon || item.AppIcon || item.icon || 'https://via.placeholder.com/64x64?text=App',
+      installed: false,
+      description: item.brief_introduction || item.BriefIntroduction || item.description || '暂无描述',
+      category: currentCategory.value?.name || '未分类',
+      version: item.app_version || item.AppVersion || item.version || '未知版本',
+      size: '未知大小',
+      releaseDate: '',
+      lastUpdated: item.update_time || item.UpdateTime || item.lastUpdated || '',
+      officialWebsite: item.official_website || item.OfficialWebsite || item.officialWebsite || '',
+      downloadUrl: item.download_url || item.DownloadURL || item.downloadUrl || ''
+    })
+
+    const possibleListKeys = ['list', 'List', 'items', 'Items', 'results', 'Results']
+
+    let list: any[] | null = null
+    if (Array.isArray(data)) {
+      list = data
+    } else if (data && typeof data === 'object') {
+      for (const key of possibleListKeys) {
+        if (Array.isArray((data as any)[key])) {
+          list = (data as any)[key]
+          break
+        }
+      }
+    }
+
+    if (Array.isArray(list)) {
+      softwareList.value = list.map((item: any, index: number) => toAppItem(item, index))
+      const countFromResponse = (data && (data.count ?? data.total ?? (data.Total as number))) as number | undefined
+      const countFromCategory = currentCategory.value && typeof currentCategory.value.count === 'number'
+        ? currentCategory.value.count
+        : undefined
+      // 根据后端返回或分类自带数量自动计算分页总数
+      total.value = typeof countFromResponse === 'number'
+        ? countFromResponse
+        : (typeof countFromCategory === 'number' ? countFromCategory : ((page - 1) * pageSize.value + softwareList.value.length))
       currentPage.value = page
-      
       console.log(`[Category] 成功加载${softwareList.value.length}条软件，总数: ${total.value}`)
     } else {
-      console.warn('[Category] 返回数据格式不正确:', data)
+      console.warn('[Category] 未找到列表数据，数据为:', data)
       softwareList.value = []
       total.value = 0
     }
@@ -95,10 +116,62 @@ watch(() => route.params.id, () => {
 }, { immediate: true })
 
 // 初始化数据
-onMounted(() => {
+onMounted(async () => {
+  // 如果分类数据为空，尝试从Go后端获取
   if (appStore.categories.length === 0) {
-    const mockCategories: CategoryItem[] = []
-    appStore.setCategories(mockCategories)
+    try {
+      console.log('CategoryView: 分类数据为空，尝试从Go后端获取...')
+      const categories = await appStore.fetchCategoriesFromWails()
+      if (categories.length > 0) {
+        console.log('CategoryView: 成功从Go后端获取分类数据:', categories)
+        appStore.setCategories(categories)
+      } else {
+        console.log('CategoryView: Go后端返回空分类数据，使用默认分类')
+        // 使用默认分类
+        const defaultCategories: CategoryItem[] = [
+          {
+            id: 1,
+            name: '生产力',
+            icon: '💼',
+            count: 12,
+            description: '提高工作效率的工具',
+            color: '#4CAF50'
+          },
+          {
+            id: 2,
+            name: '开发工具',
+            icon: '💻',
+            count: 8,
+            description: '程序员必备的开发环境',
+            color: '#795548'
+          },
+          {
+            id: 3,
+            name: '游戏',
+            icon: '🎮',
+            count: 25,
+            description: '娱乐游戏应用',
+            color: '#FF9800'
+          },
+          {
+            id: 4,
+            name: '多媒体',
+            icon: '🎵',
+            count: 15,
+            description: '音乐、视频、图片处理',
+            color: '#E91E63'
+          }
+        ]
+        appStore.setCategories(defaultCategories)
+      }
+    } catch (error) {
+      console.error('CategoryView: 获取分类数据失败，使用默认分类:', error)
+      // 出错时使用默认分类
+      const fallbackCategories: CategoryItem[] = [
+      
+      ]
+      appStore.setCategories(fallbackCategories)
+    }
   }
   
   if (currentCategory.value) {
@@ -173,7 +246,16 @@ const handleAppClick = (app: AppItem) => {
 
       <!-- 空状态 -->
       <div v-else class="empty-state">
-        <el-empty description="该分类下暂无应用" />
+        <div class="empty-content">
+          <div class="empty-icon">📱</div>
+          <h3 class="empty-title">该分类下暂无应用</h3>
+          <p class="empty-description">
+            当前分类 "{{ currentCategory?.name }}" 下还没有应用，请稍后再来查看。
+          </p>
+          <el-button type="primary" @click="router.push('/')">
+            返回首页
+          </el-button>
+        </div>
       </div>
 
       <!-- 分页组件 -->
@@ -297,6 +379,31 @@ const handleAppClick = (app: AppItem) => {
 .empty-state {
   text-align: center;
   padding: 60px 20px;
+}
+
+.empty-content {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 24px;
+  opacity: 0.6;
+}
+
+.empty-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.empty-description {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  line-height: 1.5;
 }
 
 /* 分页样式 */

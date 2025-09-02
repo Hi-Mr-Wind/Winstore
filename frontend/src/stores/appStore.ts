@@ -212,7 +212,7 @@ export const useAppStore = defineStore('app', () => {
         })
         
         return {
-          id: parseInt(goCategory.classify_id) || index + 1, // 使用后端返回的分类ID
+          id: goCategory.classify_id, // 保留后端返回的分类ID为字符串，避免丢失信息
           name: goCategory.classify_name,
           icon: goCategory.icon || getCategoryIcon(goCategory.classify_name), // 优先使用后端返回的图标
           count: goCategory.count || 0, // 使用后端返回的应用数量

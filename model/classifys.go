@@ -37,6 +37,14 @@ func (classify *Classify) SelectAll() (*[]Classify, error) {
 	return &classifys, err
 }
 
+// SelectByID 根据分类id查询分类名称
+func (classify *Classify) SelectByID() (string, error) {
+	var classifyName string
+	err := DB.Table("classifys").Select("classifys.classify_name").
+		Where("classify_id = ?", classify.ClassifyID).Find(&classifyName).Error
+	return classifyName, err
+}
+
 // SelectSubClassificationById 根据父级分类id查询子级分类
 func (classify *Classify) SelectSubClassificationById() (*[]Classify, error) {
 	var classifys []Classify

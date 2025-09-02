@@ -85,8 +85,8 @@ const handleImageError = (event: Event) => {
     
     <!-- 应用信息区域 -->
     <div class="app-info">
-      <h4 class="app-name">{{ app.name }}</h4>
-      <p class="app-developer">{{ app.developer }}</p>
+      <h4 class="app-name"><span class="label">软件名：</span>{{ app.name }}</h4>
+      <p class="app-developer"><span class="label">发行商：</span>{{ app.developer }}</p>
     </div>
     
     <!-- 操作按钮区域 -->
@@ -149,14 +149,24 @@ const handleImageError = (event: Event) => {
 .app-icon {
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto;
+  background: var(--icon-bg);
+  border: 1px solid var(--border-primary);
+  border-radius: 16px;
+  box-shadow: var(--shadow-light);
 }
 
 /* 应用图标图片样式 */
 .app-icon-img {
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
-  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  border-radius: 16px;
+  object-fit: contain;
+  background-color: transparent;
 }
 
 /* 应用信息区域 */
@@ -171,6 +181,12 @@ const handleImageError = (event: Event) => {
   color: var(--text-primary);
   margin-bottom: 8px;
   line-height: 1.4;
+}
+
+.label {
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-right: 6px;
 }
 
 /* 开发者名称样式 */

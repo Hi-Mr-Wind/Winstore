@@ -11,11 +11,12 @@
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { GetSoftwareList, UninstallSoftware } from '../../wailsjs/go/apps/App.js'
 import { EventsOn, EventsOff } from '../../wailsjs/runtime/runtime.js'
 import Sidebar from '@/components/Sidebar.vue'
 import EventNotificationWindow from '@/components/EventNotificationWindow.vue'
+import UninstallConfirmDialog from '@/components/UninstallConfirmDialog.vue'
 import type { sysUtils } from '../../wailsjs/go/models'
 import { Box, Search, Refresh } from '@element-plus/icons-vue'
 
@@ -43,6 +44,10 @@ const searchQuery = ref('')
 
 // 事件通知窗口引用
 const eventNotificationRef = ref<InstanceType<typeof EventNotificationWindow> | null>(null)
+
+// 卸载确认弹窗状态
+const uninstallDialogVisible = ref(false)
+const selectedSoftware = ref<sysUtils.SoftwareList | null>(null)
 
 // 计算过滤后的软件列表
 const filteredSoftwareList = computed(() => {
@@ -102,22 +107,18 @@ const refreshSoftwareList = async () => {
 }
 
 // 处理卸载软件
-const handleUninstall = async (software: sysUtils.SoftwareList) => {
-  try {
-    // 显示确认对话框
-    await ElMessageBox.confirm(
-      `确定要卸载 "${software.Name}" 吗？\n\n版本: ${software.Version}\n供应商: ${software.Publisher}`,
-      '确认卸载',
-      {
-        confirmButtonText: '确定卸载',
-        cancelButtonText: '取消',
-        type: 'warning',
-        dangerouslyUseHTMLString: false,
-        appendTo: document.body, // 确保弹窗添加到body元素
-        customClass: 'uninstall-confirm-dialog' // 添加自定义类名用于样式调整
-      }
-    )
+const handleUninstall = (software: sysUtils.SoftwareList) => {
+  selectedSoftware.value = software
+  uninstallDialogVisible.value = true
+}
 
+// 确认卸载
+const confirmUninstall = async () => {
+  if (!selectedSoftware.value) return
+  
+  try {
+    const software = selectedSoftware.value
+    
     // 检查是否在Wails环境中
     if (typeof window !== 'undefined' && window.go && window.go.apps && window.go.apps.App) {
       // 开始卸载
@@ -141,16 +142,25 @@ const handleUninstall = async (software: sysUtils.SoftwareList) => {
       uninstallingSoftware.value = null
     }
     
-  } catch (error) {
-    if (error === 'cancel') {
-      // 用户取消卸载
-      return
-    }
+    // 关闭弹窗
+    uninstallDialogVisible.value = false
+    selectedSoftware.value = null
     
+  } catch (error) {
     console.error('卸载失败:', error)
-    ElMessage.error(`卸载 ${software.Name} 失败，请重试`)
+    ElMessage.error(`卸载 ${selectedSoftware.value?.Name} 失败，请重试`)
     uninstallingSoftware.value = null
+    
+    // 关闭弹窗
+    uninstallDialogVisible.value = false
+    selectedSoftware.value = null
   }
+}
+
+// 取消卸载
+const cancelUninstall = () => {
+  uninstallDialogVisible.value = false
+  selectedSoftware.value = null
 }
 
 // 监听卸载进度事件
@@ -304,6 +314,16 @@ onUnmounted(() => {
     <div class="main-content">
       <!-- 事件通知窗口 -->
       <EventNotificationWindow ref="eventNotificationRef" />
+      
+      <!-- 卸载确认弹窗 -->
+      <UninstallConfirmDialog
+        v-model:visible="uninstallDialogVisible"
+        :software-name="selectedSoftware?.Name || ''"
+        :version="selectedSoftware?.Version || ''"
+        :publisher="selectedSoftware?.Publisher || ''"
+        @confirm="confirmUninstall"
+        @cancel="cancelUninstall"
+      />
       
       <!-- 页面标题区域 -->
       <div class="page-header">
@@ -626,6 +646,25 @@ onUnmounted(() => {
 .software-icon {
   font-size: 16px;
   color: var(--accent-primary);
+}
+
+/* 统一软件图标容器样式（若后续在表格中加入图标列可复用） */
+.uniform-icon-box {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--icon-bg);
+  border: 1px solid var(--border-primary);
+}
+
+.uniform-icon-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6px;
 }
 
 /* 供应商名称样式 */

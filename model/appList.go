@@ -54,11 +54,12 @@ func (appList *AppList) InsertData() error {
 
 // SelectByID 根据id查询软件列表数据
 func (appList *AppList) SelectByID(id string) error {
-	return DB.First(appList, id).Error
+	return DB.Where("app_id = ?", id).First(appList).Error
 }
 
 // SelectAllPage 分页查询软件列表数据
 func (appList *AppList) SelectAllPage(pageNum int, pageSize int, classify string) (*[]AppList, error) {
+	fmt.Println("分类ID：", classify)
 	var appLists = new([]AppList)
 	tx := DB.Offset((pageNum - 1) * pageSize).Limit(pageSize).Order("sort")
 	if classify != "" {

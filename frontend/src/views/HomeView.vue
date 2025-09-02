@@ -168,6 +168,38 @@ onMounted(async () => {
       console.log('Go后端返回空分类数据，使用默认分类')
       // 如果Go后端没有数据，使用默认分类
       const defaultCategories: CategoryItem[] = [
+        {
+          id: 1,
+          name: '生产力',
+          icon: '💼',
+          count: 12,
+          description: '提高工作效率的工具',
+          color: '#4CAF50'
+        },
+        {
+          id: 2,
+          name: '开发工具',
+          icon: '💻',
+          count: 8,
+          description: '程序员必备的开发环境',
+          color: '#795548'
+        },
+        {
+          id: 3,
+          name: '游戏',
+          icon: '🎮',
+          count: 25,
+          description: '娱乐游戏应用',
+          color: '#FF9800'
+        },
+        {
+          id: 4,
+          name: '多媒体',
+          icon: '🎵',
+          count: 15,
+          description: '音乐、视频、图片处理',
+          color: '#E91E63'
+        }
       ]
       appStore.setCategories(defaultCategories)
     }
@@ -190,6 +222,22 @@ onMounted(async () => {
         count: 8,
         description: '程序员必备的开发环境',
         color: '#795548'
+      },
+      {
+        id: 3,
+        name: '游戏',
+        icon: '🎮',
+        count: 25,
+        description: '娱乐游戏应用',
+        color: '#FF9800'
+      },
+      {
+        id: 4,
+        name: '多媒体',
+        icon: '🎵',
+        count: 15,
+        description: '音乐、视频、图片处理',
+        color: '#E91E63'
       }
     ]
     appStore.setCategories(fallbackCategories)
@@ -352,6 +400,14 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
+}
+
+/* 统一首页卡片图标外观（复用 AppCard 内部样式） */
+.app-card .app-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  background: var(--icon-bg);
 }
 
 /* 分类网格布局 */

@@ -358,6 +358,9 @@ body .el-dialog {
   --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-heavy: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  /* 图标容器底色（确保浅色模式白色Logo可见） */
+  --icon-bg: #e5e7eb; /* slate-200 */
 }
 
 /* 深色主题 */
@@ -387,6 +390,9 @@ body .el-dialog {
   --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
   --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
   --shadow-heavy: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+
+  /* 深色主题图标容器底色（较深但不喧宾） */
+  --icon-bg: #475569; /* slate-600 */
 }
 
 /* ==================== 全局样式 ==================== */

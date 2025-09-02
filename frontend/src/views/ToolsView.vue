@@ -29,14 +29,14 @@ const tools = [
     name: '系统清理',
     description: '清理系统垃圾文件，释放磁盘空间',
     icon: '🧹',
-    status: 'available'
+    status: 'coming-soon'
   },
   {
     id: 2,
     name: '软件更新',
     description: '检查并更新已安装的软件',
     icon: '🔄',
-    status: 'available'
+    status: 'coming-soon'
   },
   {
     id: 3,
@@ -47,9 +47,9 @@ const tools = [
   },
   {
     id: 4,
-    name: '备份还原',
-    description: '备份和还原系统设置',
-    icon: '💾',
+    name: '精美壁纸',
+    description: '免费的精品壁纸',
+    icon: '🖼️',
     status: 'coming-soon'
   }
 ]
