@@ -25,11 +25,11 @@ export const useAppStore = defineStore('app', () => {
   
   // 用户偏好设置
   const userPreferences = reactive<UserPreferences>({
-    theme: 'light',                                  // 默认浅色主题
+    theme: 'auto',                                  // 默认浅色主题
     language: 'zh-CN',                               // 默认中文
     autoUpdate: true,                                // 默认开启自动更新
     downloadPath: 'C:\\Downloads',                   // 默认下载路径
-    notifications: true                              // 默认开启通知
+    notifications: false                              // 默认开启通知
   })
 
   // ==================== 计算属性 ====================

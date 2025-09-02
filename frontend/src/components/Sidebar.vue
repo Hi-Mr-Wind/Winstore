@@ -65,7 +65,7 @@ const handleMenuSelect = (index: string) => {
     <!-- 侧边栏头部 - 应用商店Logo -->
     <div class="sidebar-header">
       <div class="store-logo">
-        <el-icon class="lock-icon"><Box /></el-icon>
+        <img class="store-logo-img" src="/favicon.ico" alt="Win Store" />
         <span>Win Store</span>
       </div>
     </div>
@@ -132,9 +132,10 @@ const handleMenuSelect = (index: string) => {
   color: var(--text-primary);
 }
 
-.lock-icon {
-  font-size: 20px;
-  color: var(--accent-primary);
+.store-logo-img {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
 }
 
 /* 菜单样式 */

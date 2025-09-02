@@ -48,3 +48,315 @@ DEBUG | &[]
 DEBUG | &[]
 DEBUG | &[]
 DEBUG | &[]
+DEBUG | [AssetHandler] Handling request '/' (file='.')
+DEBUG | [AssetHandler] Handling request '/assets/index-mcYWIusm.js' (file='assets/index-mcYWIusm.js')
+DEBUG | [AssetHandler] Handling request '/assets/index-B7JX4ZOW.css' (file='assets/index-B7JX4ZOW.css')
+DEBUG | [AssetHandler] Handling request '/assets/HomeView-DkOWvyUq.js' (file='assets/HomeView-DkOWvyUq.js')
+DEBUG | [AssetHandler] Handling request '/assets/Sidebar-9pyRluC9.js' (file='assets/Sidebar-9pyRluC9.js')
+DEBUG | [AssetHandler] Handling request '/assets/Sidebar-yPXUhkrS.css' (file='assets/Sidebar-yPXUhkrS.css')
+DEBUG | [AssetHandler] Handling request '/assets/AppCard-B9u71v4S.css' (file='assets/AppCard-B9u71v4S.css')
+DEBUG | [AssetHandler] Handling request '/assets/el-button-CDqfIFiK.css' (file='assets/el-button-CDqfIFiK.css')
+DEBUG | [AssetHandler] Handling request '/assets/HomeView-CSwKgrRL.css' (file='assets/HomeView-CSwKgrRL.css')
+DEBUG | [AssetHandler] Handling request '/assets/el-input-tPmZxDKr.css' (file='assets/el-input-tPmZxDKr.css')
+DEBUG | [AssetHandler] Handling request '/assets/appStore-DpF2zfG1.js' (file='assets/appStore-DpF2zfG1.js')
+DEBUG | [AssetHandler] Handling request '/assets/App-BLyaBp7l.js' (file='assets/App-BLyaBp7l.js')
+DEBUG | [AssetHandler] Handling request '/assets/AppCard-_CXp0ESK.js' (file='assets/AppCard-_CXp0ESK.js')
+DEBUG | gorm_log INFO SQL: SELECT * FROM `app_list` ORDER BY sort LIMIT 3 | Rows: 3 | Time: 1.0762ms
+DEBUG | gorm_log INFO SQL: SELECT count(*) FROM `app_list` WHERE classify = "" | Rows: 1 | Time: 562.6µs
+DEBUG | &[{001D34AD-A183-45D1-8829-BC852636C514 微信 0xc00038c9c0 https://dldir1v6.qq.com/weixin/Universal/Windows/WeChatWin.exe 0xc00038c9e0 0xc00038c9f0 0xc00038ca00 0xc000397b30 0xc000397b38 0xc00038ca10 0xc00038ca20 0xc00038ca30} {9F9E5EA8-4CF1-4A36-B29C-CF4BC694FE59 QQ 0xc00038cb00 https://dldir1v6.qq.com/qqfile/qq/QQNT/Windows/QQ_9.9.21_250822_x64_01.exe 0xc00038cb20 0xc00038cb30 0xc00038cb40 0xc000397b80 0xc000397b88 0xc00038cb50 0xc00038cb60 0xc00038cb70} {e2b1320a-da79-4d81-b55d-e53c5aca1ba9 WPS 0xc00038cc40 https://official-package.wpscdn.cn/wps/download/WPS_Setup_22529.exe 0xc00038cc60 0xc00038cc70 0xc00038cc80 0xc000397bd0 0xc000397bd8 0xc00038cc90 0xc00038cca0 0xc00038ccb0}]
+DEBUG | gorm_log INFO SQL: SELECT classifys.*,count(*) as count FROM `classifys` join app_list on app_list.classify = classifys.classify_id GROUP BY `classifys`.`classify_id` | Rows: 5 | Time: 504.3µs
+DEBUG | [AssetHandler] Handling request '/assets/HelpView-u2btJ22O.js' (file='assets/HelpView-u2btJ22O.js')
+DEBUG | [AssetHandler] Handling request '/assets/runtime-umHePRB6.js' (file='assets/runtime-umHePRB6.js')
+DEBUG | [AssetHandler] Handling request '/assets/HelpView-Chhew2js.css' (file='assets/HelpView-Chhew2js.css')
+DEBUG | [AssetHandler] Handling request '/assets/el-tag-DljBBxJR.css' (file='assets/el-tag-DljBBxJR.css')
+DEBUG | [AssetHandler] Handling request '/assets/el-select-DC6_bRTH.css' (file='assets/el-select-DC6_bRTH.css')
+DEBUG | [AssetHandler] Handling request '/assets/el-scrollbar-BWxh-h6K.css' (file='assets/el-scrollbar-BWxh-h6K.css')
+DEBUG | gorm_log INFO SQL: SELECT * FROM `app_list` ORDER BY sort LIMIT 3 | Rows: 3 | Time: 0s
+DEBUG | gorm_log INFO SQL: SELECT count(*) FROM `app_list` WHERE classify = "" | Rows: 1 | Time: 0s
+DEBUG | &[{001D34AD-A183-45D1-8829-BC852636C514 微信 0xc00038c290 https://dldir1v6.qq.com/weixin/Universal/Windows/WeChatWin.exe 0xc00038c2b0 0xc00038c2c0 0xc00038c2d0 0xc000400310 0xc000400318 0xc00038c2e0 0xc00038c2f0 0xc00038c300} {9F9E5EA8-4CF1-4A36-B29C-CF4BC694FE59 QQ 0xc00038c3d0 https://dldir1v6.qq.com/qqfile/qq/QQNT/Windows/QQ_9.9.21_250822_x64_01.exe 0xc00038c3f0 0xc00038c400 0xc00038c410 0xc000400360 0xc000400368 0xc00038c420 0xc00038c430 0xc00038c440} {e2b1320a-da79-4d81-b55d-e53c5aca1ba9 WPS 0xc00038c570 https://official-package.wpscdn.cn/wps/download/WPS_Setup_22529.exe 0xc00038c5b0 0xc00038c5e0 0xc00038c610 0xc0004003b0 0xc0004003b8 0xc00038c640 0xc00038c670 0xc00038c6e0}]
+DEBUG | gorm_log INFO SQL: SELECT classifys.*,count(*) as count FROM `classifys` join app_list on app_list.classify = classifys.classify_id GROUP BY `classifys`.`classify_id` | Rows: 5 | Time: 0s
+DEBUG | [AssetHandler] Handling request '/assets/PopularView-CLGG1VXO.js' (file='assets/PopularView-CLGG1VXO.js')
+DEBUG | [AssetHandler] Handling request '/assets/PopularView-DXajz-mX.css' (file='assets/PopularView-DXajz-mX.css')
+DEBUG | [AssetHandler] Handling request '/assets/el-pagination-BNQcHhjS.css' (file='assets/el-pagination-BNQcHhjS.css')
+DEBUG | [AssetHandler] Handling request '/assets/el-empty-D4ZqTl4F.css' (file='assets/el-empty-D4ZqTl4F.css')
+DEBUG | gorm_log INFO SQL: SELECT * FROM `app_list` ORDER BY sort LIMIT 12 | Rows: 7 | Time: 531.7µs
+DEBUG | gorm_log INFO SQL: SELECT count(*) FROM `app_list` WHERE classify = "" | Rows: 1 | Time: 0s
+DEBUG | &[{001D34AD-A183-45D1-8829-BC852636C514 微信 0xc0000322a0 https://dldir1v6.qq.com/weixin/Universal/Windows/WeChatWin.exe 0xc0000322c0 0xc0000322d0 0xc0000322e0 0xc0002e0200 0xc0002e0208 0xc0000322f0 0xc000032300 0xc000032310} {9F9E5EA8-4CF1-4A36-B29C-CF4BC694FE59 QQ 0xc0000323e0 https://dldir1v6.qq.com/qqfile/qq/QQNT/Windows/QQ_9.9.21_250822_x64_01.exe 0xc000032400 0xc000032410 0xc000032420 0xc0002e0260 0xc0002e0268 0xc000032430 0xc000032440 0xc000032450} {e2b1320a-da79-4d81-b55d-e53c5aca1ba9 WPS 0xc000032520 https://official-package.wpscdn.cn/wps/download/WPS_Setup_22529.exe 0xc000032540 0xc000032550 0xc000032560 0xc0002e0340 0xc0002e0348 0xc000032570 0xc000032580 0xc000032590} {cc375d2c-5058-46e3-8f65-5b01f82dd110 Steam 0xc000032660 https://cdn.fastly.steamstatic.com/client/installer/SteamSetup.exe 0xc000032680 0xc000032690 0xc0000326a0 0xc0002e0390 0xc0002e0398 0xc0000326b0 0xc0000326c0 0xc0000326d0} {4bdbb9dd-7a31-4002-8022-9e853563c900 腾讯视频 0xc0000327a0 https://dldir1.qq.com/qqtv/TencentVideo11.134.5501.0.exe?support_redirect=1 0xc0000327c0 0xc0000327d0 0xc0000327e0 0xc0002e03f0 0xc0002e03f8 0xc0000327f0 0xc000032800 0xc000032810} {6d0ef2f0-dbe1-400c-8ef1-5326a708a4e1 优酷视频 0xc0000328e0 https://pcclient.download.youku.com/iku-win-release/youkuclient_setup_9.2.66.1001.exe?spm=a2hcb.25507605.product.1&file=youkuclient_setup_9.2.66.1001.exe 0xc000032900 0xc000032910 0xc000032920 0xc0002e0440 0xc0002e0448 0xc000032930 0xc000032940 0xc000032950} {14d59afb-3af0-4aa5-b131-5eed3342dfe0 Intellij IDEA 0xc000032a20 https://download-cdn.jetbrains.com/idea/ideaIU-2025.2.1.exe 0xc000032a40 0xc000032a50 0xc000032a60 0xc0002e04c0 0xc0002e04c8 0xc000032a70 0xc000032a80 0xc000032a90}]
+DEBUG | [AssetHandler] Handling request '/assets/CategoryListView-ckNFc6UG.js' (file='assets/CategoryListView-ckNFc6UG.js')
+DEBUG | [AssetHandler] Handling request '/assets/CategoryListView-BsWUvmgT.css' (file='assets/CategoryListView-BsWUvmgT.css')
+DEBUG | gorm_log INFO SQL: SELECT classifys.*,count(*) as count FROM `classifys` join app_list on app_list.classify = classifys.classify_id GROUP BY `classifys`.`classify_id` | Rows: 5 | Time: 525.9µs
+DEBUG | [AssetHandler] Handling request '/assets/SettingsView-CuyHrYAc.js' (file='assets/SettingsView-CuyHrYAc.js')
+DEBUG | [AssetHandler] Handling request '/assets/SettingsView-B8i5tNQo.css' (file='assets/SettingsView-B8i5tNQo.css')
+INFO  | App shutdown
+DEBUG | [AssetHandler] Handling request '/' (file='.')
+DEBUG | [AssetHandler] Handling request '/assets/index-Dp6WcsWh.js' (file='assets/index-Dp6WcsWh.js')
+DEBUG | [AssetHandler] Handling request '/assets/index-B7JX4ZOW.css' (file='assets/index-B7JX4ZOW.css')
+DEBUG | [AssetHandler] Handling request '/assets/HomeView-7GZXT3zO.js' (file='assets/HomeView-7GZXT3zO.js')
+DEBUG | [AssetHandler] Handling request '/assets/Sidebar-CnXOv-rz.js' (file='assets/Sidebar-CnXOv-rz.js')
+DEBUG | [AssetHandler] Handling request '/assets/Sidebar-yPXUhkrS.css' (file='assets/Sidebar-yPXUhkrS.css')
+DEBUG | [AssetHandler] Handling request '/assets/AppCard-B9u71v4S.css' (file='assets/AppCard-B9u71v4S.css')
+DEBUG | [AssetHandler] Handling request '/assets/el-button-CDqfIFiK.css' (file='assets/el-button-CDqfIFiK.css')
+DEBUG | [AssetHandler] Handling request '/assets/HomeView-CSwKgrRL.css' (file='assets/HomeView-CSwKgrRL.css')
+DEBUG | [AssetHandler] Handling request '/assets/el-input-tPmZxDKr.css' (file='assets/el-input-tPmZxDKr.css')
+DEBUG | [AssetHandler] Handling request '/assets/appStore-CY5MIios.js' (file='assets/appStore-CY5MIios.js')
+DEBUG | [AssetHandler] Handling request '/assets/App-BLyaBp7l.js' (file='assets/App-BLyaBp7l.js')
+DEBUG | [AssetHandler] Handling request '/assets/AppCard-CnsvnczR.js' (file='assets/AppCard-CnsvnczR.js')
+DEBUG | gorm_log INFO SQL: SELECT * FROM `app_list` ORDER BY sort LIMIT 3 | Rows: 3 | Time: 522.8µs
+DEBUG | gorm_log INFO SQL: SELECT count(*) FROM `app_list` WHERE classify = "" | Rows: 1 | Time: 0s
+DEBUG | &[{001D34AD-A183-45D1-8829-BC852636C514 微信 0xc000032720 https://dldir1v6.qq.com/weixin/Universal/Windows/WeChatWin.exe 0xc000032740 0xc000032750 0xc000032760 0xc00000ad80 0xc00000ad88 0xc000032770 0xc000032780 0xc000032790} {9F9E5EA8-4CF1-4A36-B29C-CF4BC694FE59 QQ 0xc000032860 https://dldir1v6.qq.com/qqfile/qq/QQNT/Windows/QQ_9.9.21_250822_x64_01.exe 0xc000032880 0xc000032890 0xc0000328a0 0xc00000add0 0xc00000add8 0xc0000328b0 0xc0000328c0 0xc0000328d0} {e2b1320a-da79-4d81-b55d-e53c5aca1ba9 WPS 0xc0000329a0 https://official-package.wpscdn.cn/wps/download/WPS_Setup_22529.exe 0xc0000329c0 0xc0000329d0 0xc0000329e0 0xc00000ae20 0xc00000ae28 0xc0000329f0 0xc000032a00 0xc000032a10}]
+DEBUG | gorm_log INFO SQL: SELECT classifys.*,count(*) as count FROM `classifys` join app_list on app_list.classify = classifys.classify_id GROUP BY `classifys`.`classify_id` | Rows: 5 | Time: 565.8µs
+INFO  | App shutdown
+INFO  | Serving assets from frontend DevServer URL: http://localhost:5173/
+DEBUG | [AssetHandler] Handling request '/' (file='.')
+DEBUG | [AssetHandler] File '.' not found, serving '/' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/'
+DEBUG | [AssetHandler] Handling request '/@id/virtual:vue-devtools-path:overlay.js' (file='@id/virtual:vue-devtools-path:overlay.js')
+DEBUG | [AssetHandler] File '@id/virtual:vue-devtools-path:overlay.js' not found, serving '/@id/virtual:vue-devtools-path:overlay.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/@id/virtual:vue-devtools-path:overlay.js'
+DEBUG | [AssetHandler] Handling request '/@vite/client' (file='@vite/client')
+DEBUG | [AssetHandler] Handling request '/src/main.ts' (file='src/main.ts')
+DEBUG | [AssetHandler] File '@vite/client' not found, serving '/@vite/client' by AssetHandler
+DEBUG | [AssetHandler] Handling request '/@id/virtual:vue-inspector-path:load.js' (file='@id/virtual:vue-inspector-path:load.js')
+DEBUG | [AssetHandler] File 'src/main.ts' not found, serving '/src/main.ts' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/@vite/client'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/main.ts'
+DEBUG | [AssetHandler] File '@id/virtual:vue-inspector-path:load.js' not found, serving '/@id/virtual:vue-inspector-path:load.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/@id/virtual:vue-inspector-path:load.js'
+DEBUG | [AssetHandler] Handling request '/node_modules/@vue/devtools-core/dist/index.js' (file='node_modules/@vue/devtools-core/dist/index.js')
+DEBUG | [AssetHandler] File 'node_modules/@vue/devtools-core/dist/index.js' not found, serving '/node_modules/@vue/devtools-core/dist/index.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/@vue/devtools-core/dist/index.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/node_modules/@vue/devtools-kit/dist/index.js' (file='node_modules/@vue/devtools-kit/dist/index.js')
+DEBUG | [AssetHandler] Handling request '/@id/__x00__virtual:vue-devtools-options' (file='@id/__x00__virtual:vue-devtools-options')
+DEBUG | [AssetHandler] File 'node_modules/@vue/devtools-kit/dist/index.js' not found, serving '/node_modules/@vue/devtools-kit/dist/index.js' by AssetHandler
+DEBUG | [AssetHandler] File '@id/__x00__virtual:vue-devtools-options' not found, serving '/@id/__x00__virtual:vue-devtools-options' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/@vue/devtools-kit/dist/index.js?v=d61bd1de'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/@id/__x00__virtual:vue-devtools-options'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/vue.js' (file='node_modules/.vite/deps/vue.js')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/vue.js' not found, serving '/node_modules/.vite/deps/vue.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/vue.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/node_modules/vite-plugin-vue-inspector/src/Overlay.vue' (file='node_modules/vite-plugin-vue-inspector/src/Overlay.vue')
+DEBUG | [AssetHandler] File 'node_modules/vite-plugin-vue-inspector/src/Overlay.vue' not found, serving '/node_modules/vite-plugin-vue-inspector/src/Overlay.vue' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/vite-plugin-vue-inspector/src/Overlay.vue'
+DEBUG | [AssetHandler] Handling request '/@id/virtual:vue-inspector-options' (file='@id/virtual:vue-inspector-options')
+DEBUG | [AssetHandler] File '@id/virtual:vue-inspector-options' not found, serving '/@id/virtual:vue-inspector-options' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/@id/virtual:vue-inspector-options'
+DEBUG | [AssetHandler] Handling request '/node_modules/vite/dist/client/env.mjs' (file='node_modules/vite/dist/client/env.mjs')
+DEBUG | [AssetHandler] File 'node_modules/vite/dist/client/env.mjs' not found, serving '/node_modules/vite/dist/client/env.mjs' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/vite/dist/client/env.mjs'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/pinia.js' (file='node_modules/.vite/deps/pinia.js')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/pinia.js' not found, serving '/node_modules/.vite/deps/pinia.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/pinia.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/element-plus.js' (file='node_modules/.vite/deps/element-plus.js')
+DEBUG | [AssetHandler] Handling request '/node_modules/element-plus/dist/index.css' (file='node_modules/element-plus/dist/index.css')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/element-plus.js' not found, serving '/node_modules/.vite/deps/element-plus.js' by AssetHandler
+DEBUG | [AssetHandler] File 'node_modules/element-plus/dist/index.css' not found, serving '/node_modules/element-plus/dist/index.css' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/element-plus.js?v=d61bd1de'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/element-plus/dist/index.css'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/@element-plus_icons-vue.js' (file='node_modules/.vite/deps/@element-plus_icons-vue.js')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/@element-plus_icons-vue.js' not found, serving '/node_modules/.vite/deps/@element-plus_icons-vue.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/@element-plus_icons-vue.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/src/router/index.ts' (file='src/router/index.ts')
+DEBUG | [AssetHandler] File 'src/router/index.ts' not found, serving '/src/router/index.ts' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/router/index.ts'
+DEBUG | [AssetHandler] Handling request '/src/i18n/index.ts' (file='src/i18n/index.ts')
+DEBUG | [AssetHandler] File 'src/i18n/index.ts' not found, serving '/src/i18n/index.ts' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/i18n/index.ts'
+DEBUG | [AssetHandler] Handling request '/src/App.vue' (file='src/App.vue')
+DEBUG | [AssetHandler] File 'src/App.vue' not found, serving '/src/App.vue' by AssetHandler
+DEBUG | [AssetHandler] Handling request '/src/composables/useTheme.ts' (file='src/composables/useTheme.ts')
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/App.vue'
+DEBUG | [AssetHandler] File 'src/composables/useTheme.ts' not found, serving '/src/composables/useTheme.ts' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/composables/useTheme.ts'
+DEBUG | [AssetHandler] Handling request '/src/styles/theme.css' (file='src/styles/theme.css')
+DEBUG | [AssetHandler] File 'src/styles/theme.css' not found, serving '/src/styles/theme.css' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/styles/theme.css'
+DEBUG | [AssetHandler] Handling request '/src/composables/useWailsEnvironment.ts' (file='src/composables/useWailsEnvironment.ts')
+DEBUG | [AssetHandler] File 'src/composables/useWailsEnvironment.ts' not found, serving '/src/composables/useWailsEnvironment.ts' by AssetHandler
+DEBUG | [AssetHandler] Handling request '/node_modules/@vue/devtools-shared/dist/index.js' (file='node_modules/@vue/devtools-shared/dist/index.js')
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/composables/useWailsEnvironment.ts'
+DEBUG | [AssetHandler] File 'node_modules/@vue/devtools-shared/dist/index.js' not found, serving '/node_modules/@vue/devtools-shared/dist/index.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/@vue/devtools-shared/dist/index.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/node_modules/perfect-debounce/dist/index.mjs' (file='node_modules/perfect-debounce/dist/index.mjs')
+DEBUG | [AssetHandler] Handling request '/node_modules/hookable/dist/index.mjs' (file='node_modules/hookable/dist/index.mjs')
+DEBUG | [AssetHandler] File 'node_modules/perfect-debounce/dist/index.mjs' not found, serving '/node_modules/perfect-debounce/dist/index.mjs' by AssetHandler
+DEBUG | [AssetHandler] File 'node_modules/hookable/dist/index.mjs' not found, serving '/node_modules/hookable/dist/index.mjs' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/perfect-debounce/dist/index.mjs?v=d61bd1de'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/hookable/dist/index.mjs?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/node_modules/birpc/dist/index.mjs' (file='node_modules/birpc/dist/index.mjs')
+DEBUG | [AssetHandler] File 'node_modules/birpc/dist/index.mjs' not found, serving '/node_modules/birpc/dist/index.mjs' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/birpc/dist/index.mjs?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/chunk-QLD4HCIR.js' (file='node_modules/.vite/deps/chunk-QLD4HCIR.js')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/chunk-QLD4HCIR.js' not found, serving '/node_modules/.vite/deps/chunk-QLD4HCIR.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/chunk-QLD4HCIR.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/node_modules/vite-plugin-vue-inspector/src/Overlay.vue' (file='node_modules/vite-plugin-vue-inspector/src/Overlay.vue')
+DEBUG | [AssetHandler] File 'node_modules/vite-plugin-vue-inspector/src/Overlay.vue' not found, serving '/node_modules/vite-plugin-vue-inspector/src/Overlay.vue' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/vite-plugin-vue-inspector/src/Overlay.vue?vue&type=style&index=0&scoped=31d1379f&lang.css'
+DEBUG | [AssetHandler] Handling request '/@id/__x00__plugin-vue:export-helper' (file='@id/__x00__plugin-vue:export-helper')
+DEBUG | [AssetHandler] File '@id/__x00__plugin-vue:export-helper' not found, serving '/@id/__x00__plugin-vue:export-helper' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/@id/__x00__plugin-vue:export-helper'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/chunk-G2VK3XU7.js' (file='node_modules/.vite/deps/chunk-G2VK3XU7.js')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/chunk-G2VK3XU7.js' not found, serving '/node_modules/.vite/deps/chunk-G2VK3XU7.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/chunk-G2VK3XU7.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/chunk-MBLROXJF.js' (file='node_modules/.vite/deps/chunk-MBLROXJF.js')
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/vue-router.js' (file='node_modules/.vite/deps/vue-router.js')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/chunk-MBLROXJF.js' not found, serving '/node_modules/.vite/deps/chunk-MBLROXJF.js' by AssetHandler
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/vue-router.js' not found, serving '/node_modules/.vite/deps/vue-router.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/chunk-MBLROXJF.js?v=d61bd1de'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/vue-router.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/@id/virtual:vue-devtools-path:overlay/devtools-overlay.css' (file='@id/virtual:vue-devtools-path:overlay/devtools-overlay.css')
+DEBUG | [AssetHandler] File '@id/virtual:vue-devtools-path:overlay/devtools-overlay.css' not found, serving '/@id/virtual:vue-devtools-path:overlay/devtools-overlay.css' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/@id/virtual:vue-devtools-path:overlay/devtools-overlay.css'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/vue-i18n.js' (file='node_modules/.vite/deps/vue-i18n.js')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/vue-i18n.js' not found, serving '/node_modules/.vite/deps/vue-i18n.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/vue-i18n.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/src/App.vue' (file='src/App.vue')
+DEBUG | [AssetHandler] File 'src/App.vue' not found, serving '/src/App.vue' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/App.vue?vue&type=style&index=0&lang.css'
+DEBUG | [AssetHandler] Handling request '/@id/virtual:vue-devtools-path:overlay/devtools-overlay.mjs' (file='@id/virtual:vue-devtools-path:overlay/devtools-overlay.mjs')
+DEBUG | [AssetHandler] File '@id/virtual:vue-devtools-path:overlay/devtools-overlay.mjs' not found, serving '/@id/virtual:vue-devtools-path:overlay/devtools-overlay.mjs' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/@id/virtual:vue-devtools-path:overlay/devtools-overlay.mjs'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/chunk-YFT6OQ5R.js' (file='node_modules/.vite/deps/chunk-YFT6OQ5R.js')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/chunk-YFT6OQ5R.js' not found, serving '/node_modules/.vite/deps/chunk-YFT6OQ5R.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/chunk-YFT6OQ5R.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/src/views/HomeView.vue' (file='src/views/HomeView.vue')
+DEBUG | [AssetHandler] File 'src/views/HomeView.vue' not found, serving '/src/views/HomeView.vue' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/views/HomeView.vue'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/element-plus_es.js' (file='node_modules/.vite/deps/element-plus_es.js')
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/element-plus_es_components_base_style_css.js' (file='node_modules/.vite/deps/element-plus_es_components_base_style_css.js')
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/element-plus_es_components_input_style_css.js' (file='node_modules/.vite/deps/element-plus_es_components_input_style_css.js')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/element-plus_es.js' not found, serving '/node_modules/.vite/deps/element-plus_es.js' by AssetHandler
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/element-plus_es_components_button_style_css.js' (file='node_modules/.vite/deps/element-plus_es_components_button_style_css.js')
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/element-plus_es_components_icon_style_css.js' (file='node_modules/.vite/deps/element-plus_es_components_icon_style_css.js')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/element-plus_es_components_base_style_css.js' not found, serving '/node_modules/.vite/deps/element-plus_es_components_base_style_css.js' by AssetHandler
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/element-plus_es_components_input_style_css.js' not found, serving '/node_modules/.vite/deps/element-plus_es_components_input_style_css.js' by AssetHandler
+DEBUG | [AssetHandler] Handling request '/src/stores/appStore.ts' (file='src/stores/appStore.ts')
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/element-plus_es.js?v=d61bd1de'
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/element-plus_es_components_button_style_css.js' not found, serving '/node_modules/.vite/deps/element-plus_es_components_button_style_css.js' by AssetHandler
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/element-plus_es_components_icon_style_css.js' not found, serving '/node_modules/.vite/deps/element-plus_es_components_icon_style_css.js' by AssetHandler
+DEBUG | [AssetHandler] Handling request '/src/components/Sidebar.vue' (file='src/components/Sidebar.vue')
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/element-plus_es_components_base_style_css.js?v=d61bd1de'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/element-plus_es_components_input_style_css.js?v=d61bd1de'
+DEBUG | [AssetHandler] File 'src/stores/appStore.ts' not found, serving '/src/stores/appStore.ts' by AssetHandler
+DEBUG | [AssetHandler] Handling request '/src/components/AppCard.vue' (file='src/components/AppCard.vue')
+DEBUG | [AssetHandler] Handling request '/wailsjs/go/apps/App.js' (file='wailsjs/go/apps/App.js')
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/element-plus_es_components_button_style_css.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/src/views/HomeView.vue' (file='src/views/HomeView.vue')
+DEBUG | [AssetHandler] File 'src/components/Sidebar.vue' not found, serving '/src/components/Sidebar.vue' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/element-plus_es_components_icon_style_css.js?v=d61bd1de'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/stores/appStore.ts'
+DEBUG | [AssetHandler] File 'src/components/AppCard.vue' not found, serving '/src/components/AppCard.vue' by AssetHandler
+DEBUG | [AssetHandler] File 'wailsjs/go/apps/App.js' not found, serving '/wailsjs/go/apps/App.js' by AssetHandler
+DEBUG | [AssetHandler] File 'src/views/HomeView.vue' not found, serving '/src/views/HomeView.vue' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/components/Sidebar.vue'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/components/AppCard.vue'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/wailsjs/go/apps/App.js'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/views/HomeView.vue?vue&type=style&index=0&scoped=b4e148ca&lang.css'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/chunk-EGEJCRDT.js' (file='node_modules/.vite/deps/chunk-EGEJCRDT.js')
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/chunk-GQRBKCJL.js' (file='node_modules/.vite/deps/chunk-GQRBKCJL.js')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/chunk-EGEJCRDT.js' not found, serving '/node_modules/.vite/deps/chunk-EGEJCRDT.js' by AssetHandler
+DEBUG | [AssetHandler] Handling request '/node_modules/element-plus/theme-chalk/el-button.css' (file='node_modules/element-plus/theme-chalk/el-button.css')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/chunk-GQRBKCJL.js' not found, serving '/node_modules/.vite/deps/chunk-GQRBKCJL.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/chunk-EGEJCRDT.js?v=d61bd1de'
+DEBUG | [AssetHandler] File 'node_modules/element-plus/theme-chalk/el-button.css' not found, serving '/node_modules/element-plus/theme-chalk/el-button.css' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/chunk-GQRBKCJL.js?v=d61bd1de'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/element-plus/theme-chalk/el-button.css'
+DEBUG | [AssetHandler] Handling request '/src/components/AppCard.vue' (file='src/components/AppCard.vue')
+DEBUG | [AssetHandler] File 'src/components/AppCard.vue' not found, serving '/src/components/AppCard.vue' by AssetHandler
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/element-plus_es_components_menu_style_css.js' (file='node_modules/.vite/deps/element-plus_es_components_menu_style_css.js')
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/components/AppCard.vue?vue&type=style&index=0&scoped=313be872&lang.css'
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/element-plus_es_components_menu_style_css.js' not found, serving '/node_modules/.vite/deps/element-plus_es_components_menu_style_css.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/element-plus_es_components_menu_style_css.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/element-plus_es_components_menu-item_style_css.js' (file='node_modules/.vite/deps/element-plus_es_components_menu-item_style_css.js')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/element-plus_es_components_menu-item_style_css.js' not found, serving '/node_modules/.vite/deps/element-plus_es_components_menu-item_style_css.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/element-plus_es_components_menu-item_style_css.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/favicon.ico' (file='favicon.ico')
+DEBUG | [AssetHandler] Handling request '/src/components/Sidebar.vue' (file='src/components/Sidebar.vue')
+DEBUG | [AssetHandler] File 'favicon.ico' not found, serving '/favicon.ico' by AssetHandler
+DEBUG | [AssetHandler] File 'src/components/Sidebar.vue' not found, serving '/src/components/Sidebar.vue' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/favicon.ico?import'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/components/Sidebar.vue?vue&type=style&index=0&scoped=6dec5f19&lang.css'
+DEBUG | [AssetHandler] Handling request '/node_modules/element-plus/theme-chalk/base.css' (file='node_modules/element-plus/theme-chalk/base.css')
+DEBUG | [AssetHandler] File 'node_modules/element-plus/theme-chalk/base.css' not found, serving '/node_modules/element-plus/theme-chalk/base.css' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/element-plus/theme-chalk/base.css'
+DEBUG | [AssetHandler] Handling request '/node_modules/element-plus/theme-chalk/el-input.css' (file='node_modules/element-plus/theme-chalk/el-input.css')
+DEBUG | [AssetHandler] File 'node_modules/element-plus/theme-chalk/el-input.css' not found, serving '/node_modules/element-plus/theme-chalk/el-input.css' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/element-plus/theme-chalk/el-input.css'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/chunk-QDRW6ZLF.js' (file='node_modules/.vite/deps/chunk-QDRW6ZLF.js')
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/chunk-3PVONG6V.js' (file='node_modules/.vite/deps/chunk-3PVONG6V.js')
+DEBUG | [AssetHandler] Handling request '/node_modules/element-plus/theme-chalk/el-menu.css' (file='node_modules/element-plus/theme-chalk/el-menu.css')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/chunk-3PVONG6V.js' not found, serving '/node_modules/.vite/deps/chunk-3PVONG6V.js' by AssetHandler
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/chunk-QDRW6ZLF.js' not found, serving '/node_modules/.vite/deps/chunk-QDRW6ZLF.js' by AssetHandler
+DEBUG | [AssetHandler] File 'node_modules/element-plus/theme-chalk/el-menu.css' not found, serving '/node_modules/element-plus/theme-chalk/el-menu.css' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/chunk-3PVONG6V.js?v=d61bd1de'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/element-plus/theme-chalk/el-menu.css'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/chunk-QDRW6ZLF.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/node_modules/element-plus/theme-chalk/el-menu-item.css' (file='node_modules/element-plus/theme-chalk/el-menu-item.css')
+DEBUG | [AssetHandler] File 'node_modules/element-plus/theme-chalk/el-menu-item.css' not found, serving '/node_modules/element-plus/theme-chalk/el-menu-item.css' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/element-plus/theme-chalk/el-menu-item.css'
+DEBUG | [AssetHandler] Handling request '/node_modules/element-plus/theme-chalk/el-popper.css' (file='node_modules/element-plus/theme-chalk/el-popper.css')
+DEBUG | [AssetHandler] File 'node_modules/element-plus/theme-chalk/el-popper.css' not found, serving '/node_modules/element-plus/theme-chalk/el-popper.css' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/element-plus/theme-chalk/el-popper.css'
+DEBUG | [AssetHandler] Handling request '/node_modules/element-plus/theme-chalk/el-tooltip.css' (file='node_modules/element-plus/theme-chalk/el-tooltip.css')
+DEBUG | [AssetHandler] File 'node_modules/element-plus/theme-chalk/el-tooltip.css' not found, serving '/node_modules/element-plus/theme-chalk/el-tooltip.css' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/element-plus/theme-chalk/el-tooltip.css'
+DEBUG | gorm_log INFO SQL: SELECT * FROM `app_list` ORDER BY sort LIMIT 3 | Rows: 3 | Time: 1.2152ms
+DEBUG | gorm_log INFO SQL: SELECT count(*) FROM `app_list` WHERE classify = "" | Rows: 1 | Time: 0s
+DEBUG | &[{001D34AD-A183-45D1-8829-BC852636C514 微信 0xc000033880 https://dldir1v6.qq.com/weixin/Universal/Windows/WeChatWin.exe 0xc0000338b0 0xc0000338d0 0xc0000338e0 0xc0004b2690 0xc0004b2698 0xc000033900 0xc000033910 0xc000033930} {9F9E5EA8-4CF1-4A36-B29C-CF4BC694FE59 QQ 0xc000033a60 https://dldir1v6.qq.com/qqfile/qq/QQNT/Windows/QQ_9.9.21_250822_x64_01.exe 0xc000033a90 0xc000033ab0 0xc000033ac0 0xc0004b2760 0xc0004b2768 0xc000033ae0 0xc000033af0 0xc000033b10} {e2b1320a-da79-4d81-b55d-e53c5aca1ba9 WPS 0xc000033c40 https://official-package.wpscdn.cn/wps/download/WPS_Setup_22529.exe 0xc000033c70 0xc000033c90 0xc000033ca0 0xc0004b2840 0xc0004b2848 0xc000033cc0 0xc000033cd0 0xc000033cf0}]
+DEBUG | [AssetHandler] Handling request '/favicon.ico' (file='favicon.ico')
+DEBUG | [AssetHandler] File 'favicon.ico' not found, serving '/favicon.ico' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/favicon.ico'
+DEBUG | gorm_log INFO SQL: SELECT classifys.*,count(*) as count FROM `classifys` join app_list on app_list.classify = classifys.classify_id GROUP BY `classifys`.`classify_id` | Rows: 5 | Time: 1.0382ms
+DEBUG | [AssetHandler] Handling request '/src/views/SettingsView.vue' (file='src/views/SettingsView.vue')
+DEBUG | [AssetHandler] File 'src/views/SettingsView.vue' not found, serving '/src/views/SettingsView.vue' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/views/SettingsView.vue'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/element-plus_es_components_switch_style_css.js' (file='node_modules/.vite/deps/element-plus_es_components_switch_style_css.js')
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/element-plus_es_components_select_style_css.js' (file='node_modules/.vite/deps/element-plus_es_components_select_style_css.js')
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/element-plus_es_components_option_style_css.js' (file='node_modules/.vite/deps/element-plus_es_components_option_style_css.js')
+DEBUG | [AssetHandler] Handling request '/src/views/SettingsView.vue' (file='src/views/SettingsView.vue')
+DEBUG | [AssetHandler] File 'src/views/SettingsView.vue' not found, serving '/src/views/SettingsView.vue' by AssetHandler
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/element-plus_es_components_select_style_css.js' not found, serving '/node_modules/.vite/deps/element-plus_es_components_select_style_css.js' by AssetHandler
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/element-plus_es_components_switch_style_css.js' not found, serving '/node_modules/.vite/deps/element-plus_es_components_switch_style_css.js' by AssetHandler
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/element-plus_es_components_option_style_css.js' not found, serving '/node_modules/.vite/deps/element-plus_es_components_option_style_css.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/element-plus_es_components_select_style_css.js?v=d61bd1de'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/element-plus_es_components_switch_style_css.js?v=d61bd1de'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/views/SettingsView.vue?vue&type=style&index=0&scoped=5e0b544f&lang.css'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/element-plus_es_components_option_style_css.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/chunk-CO4ULNQJ.js' (file='node_modules/.vite/deps/chunk-CO4ULNQJ.js')
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/chunk-T43Z2LGJ.js' (file='node_modules/.vite/deps/chunk-T43Z2LGJ.js')
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/chunk-AF5GDIRF.js' (file='node_modules/.vite/deps/chunk-AF5GDIRF.js')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/chunk-CO4ULNQJ.js' not found, serving '/node_modules/.vite/deps/chunk-CO4ULNQJ.js' by AssetHandler
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/chunk-T43Z2LGJ.js' not found, serving '/node_modules/.vite/deps/chunk-T43Z2LGJ.js' by AssetHandler
+DEBUG | [AssetHandler] Handling request '/node_modules/.vite/deps/chunk-PZS2UOHR.js' (file='node_modules/.vite/deps/chunk-PZS2UOHR.js')
+DEBUG | [AssetHandler] Handling request '/node_modules/element-plus/theme-chalk/el-switch.css' (file='node_modules/element-plus/theme-chalk/el-switch.css')
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/chunk-AF5GDIRF.js' not found, serving '/node_modules/.vite/deps/chunk-AF5GDIRF.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/chunk-CO4ULNQJ.js?v=d61bd1de'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/chunk-T43Z2LGJ.js?v=d61bd1de'
+DEBUG | [AssetHandler] File 'node_modules/element-plus/theme-chalk/el-switch.css' not found, serving '/node_modules/element-plus/theme-chalk/el-switch.css' by AssetHandler
+DEBUG | [AssetHandler] File 'node_modules/.vite/deps/chunk-PZS2UOHR.js' not found, serving '/node_modules/.vite/deps/chunk-PZS2UOHR.js' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/chunk-AF5GDIRF.js?v=d61bd1de'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/element-plus/theme-chalk/el-switch.css'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/.vite/deps/chunk-PZS2UOHR.js?v=d61bd1de'
+DEBUG | [AssetHandler] Handling request '/node_modules/element-plus/theme-chalk/el-option-group.css' (file='node_modules/element-plus/theme-chalk/el-option-group.css')
+DEBUG | [AssetHandler] Handling request '/node_modules/element-plus/theme-chalk/el-select.css' (file='node_modules/element-plus/theme-chalk/el-select.css')
+DEBUG | [AssetHandler] Handling request '/node_modules/element-plus/theme-chalk/el-tag.css' (file='node_modules/element-plus/theme-chalk/el-tag.css')
+DEBUG | [AssetHandler] File 'node_modules/element-plus/theme-chalk/el-option-group.css' not found, serving '/node_modules/element-plus/theme-chalk/el-option-group.css' by AssetHandler
+DEBUG | [AssetHandler] File 'node_modules/element-plus/theme-chalk/el-select.css' not found, serving '/node_modules/element-plus/theme-chalk/el-select.css' by AssetHandler
+DEBUG | [AssetHandler] File 'node_modules/element-plus/theme-chalk/el-tag.css' not found, serving '/node_modules/element-plus/theme-chalk/el-tag.css' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/element-plus/theme-chalk/el-option-group.css'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/element-plus/theme-chalk/el-select.css'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/element-plus/theme-chalk/el-tag.css'
+DEBUG | [AssetHandler] Handling request '/node_modules/element-plus/theme-chalk/el-option.css' (file='node_modules/element-plus/theme-chalk/el-option.css')
+DEBUG | [AssetHandler] File 'node_modules/element-plus/theme-chalk/el-option.css' not found, serving '/node_modules/element-plus/theme-chalk/el-option.css' by AssetHandler
+DEBUG | [AssetHandler] Handling request '/node_modules/element-plus/theme-chalk/el-scrollbar.css' (file='node_modules/element-plus/theme-chalk/el-scrollbar.css')
+DEBUG | [AssetHandler] File 'node_modules/element-plus/theme-chalk/el-scrollbar.css' not found, serving '/node_modules/element-plus/theme-chalk/el-scrollbar.css' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/element-plus/theme-chalk/el-option.css'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/node_modules/element-plus/theme-chalk/el-scrollbar.css'
+DEBUG | [AssetHandler] Handling request '/src/views/HomeView.vue' (file='src/views/HomeView.vue')
+DEBUG | [AssetHandler] Handling request '/src/views/SettingsView.vue' (file='src/views/SettingsView.vue')
+DEBUG | [AssetHandler] File 'src/views/SettingsView.vue' not found, serving '/src/views/SettingsView.vue' by AssetHandler
+DEBUG | [AssetHandler] File 'src/views/HomeView.vue' not found, serving '/src/views/HomeView.vue' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/views/SettingsView.vue?t=1756810628556'
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/views/HomeView.vue?t=1756810628556'
+DEBUG | [AssetHandler] Handling request '/src/stores/appStore.ts' (file='src/stores/appStore.ts')
+DEBUG | [AssetHandler] File 'src/stores/appStore.ts' not found, serving '/src/stores/appStore.ts' by AssetHandler
+DEBUG | [ExternalAssetHandler] Loading 'http://localhost:5173/src/stores/appStore.ts?t=1756810628556'

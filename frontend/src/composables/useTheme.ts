@@ -9,7 +9,7 @@ import { ref, watch, onMounted } from 'vue'
 export type Theme = 'light' | 'dark' | 'auto'
 
 // 当前主题状态
-const currentTheme = ref<Theme>('light')
+const currentTheme = ref<Theme>('auto')
 
 /**
  * 检测系统主题偏好
@@ -112,7 +112,7 @@ export function initTheme() {
   if (savedTheme && ['light', 'dark', 'auto'].includes(savedTheme)) {
     setTheme(savedTheme)
   } else {
-    setTheme('light')
+    setTheme('auto')
   }
 }
 

@@ -24,8 +24,8 @@ func main() {
 		Height:    780,
 		MinHeight: 630,
 		MinWidth:  730,
-		LogLevel:  logger.DEBUG,
-		//Logger:   logger.NewFileLogger("app.log"), // 可选：同时输出到文件
+		LogLevel:  logger.INFO,
+		Logger:    logger.NewFileLogger("app.log"), // 可选：同时输出到文件
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},

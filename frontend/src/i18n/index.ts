@@ -315,8 +315,21 @@ const enUS = {
 // 创建i18n实例
 export const i18n = createI18n({
   legacy: false, // 使用Composition API
+  globalInjection: true, // 允许在模板中直接使用 $t / t
   locale: 'zh-CN', // 默认语言
-  fallbackLocale: 'en-US', // 回退语言
+  fallbackLocale: 'zh-CN', // 优先回退到中文，避免打包后缺词条显示 key
+  warnHtmlMessage: false,
+  missingWarn: false,
+  fallbackWarn: false,
+  // 自定义缺失键处理：任何缺失键优先回退到内置中文包
+  missing: (_locale, key) => {
+    const getByPath = (obj: any, path: string): any => {
+      return path.split('.').reduce((acc: any, seg: string) => (acc && acc[seg] !== undefined ? acc[seg] : undefined), obj)
+    }
+    const zh = getByPath(zhCN as any, key)
+    if (typeof zh === 'string') return zh
+    return key
+  },
   messages: {
     'zh-CN': zhCN,
     'en-US': enUS
