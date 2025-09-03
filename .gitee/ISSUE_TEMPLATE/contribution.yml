@@ -5,7 +5,7 @@ labels: ["enhancement"]
 assignees:
   - gitee
 body:
-    - type: markdown
+  - type: markdown
     attributes:
       value: |
         感谢您的贡献，一个好的社区环境离不开您的帮助！
@@ -29,14 +29,14 @@ body:
       label: 软件所属分类
       description: 你认为这个软件应该归类到哪个类别
       options:
-      - 社交
-      - 游戏
-      - 办公
-      - 开发
-      - 影音
-      - 工具
-      - 理财
-      - 阅读
+        - 社交
+        - 游戏
+        - 办公
+        - 开发
+        - 影音
+        - 工具
+        - 理财
+        - 阅读
     validations:
       required: true
   - type: textarea
