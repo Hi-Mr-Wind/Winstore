@@ -31,5 +31,5 @@ func (a *App) UninstallSoftware(softwareName string) error {
 // UpdateApp 更新软件自身
 func (a *App) UpdateApp() error {
 
-	return sysUtils.UpdateApp(a.ctx)
+	return nil
 }

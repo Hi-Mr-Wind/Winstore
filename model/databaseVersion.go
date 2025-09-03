@@ -7,8 +7,11 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 	"winstore/comm"
+
+	rtime "runtime"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -62,9 +65,10 @@ func (databaseVersion *DatabaseVersion) SelectUpdateDataBase() (bool, error) {
 	if data.Code != 0 {
 		return false, fmt.Errorf("获取数据库更新失败")
 	}
-	ver, ok := data.Data.(int64)
-	if !ok {
-		return false, fmt.Errorf("版本数据类型错误")
+
+	ver, err := strconv.ParseInt(data.Data.(string), 10, 64)
+	if err != nil {
+		return false, err
 	}
 	if ver <= databaseVersion.Version {
 		return false, nil
@@ -130,11 +134,6 @@ func DownloadNewDataBase(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("创建文件失败: %w", err)
 	}
-	defer func() {
-		if closeErr := file.Close(); closeErr != nil {
-			runtime.LogErrorf(ctx, "关闭文件时出错: %v\n", closeErr)
-		}
-	}()
 	_, err = io.Copy(file, get.Body)
 	if err != nil {
 		return fmt.Errorf("写入文件失败: %w", err)
@@ -147,6 +146,8 @@ func DownloadNewDataBase(ctx context.Context) error {
 	if err := db.Close(); err != nil {
 		return err
 	}
+	DB = nil
+	rtime.GC()
 	// 验证数据连接是否以及被关闭，如果没有则等待关闭，最大等待时间为60秒
 	for i := 0; i < 60; i++ {
 		if db.Stats().OpenConnections == 0 {
@@ -161,6 +162,10 @@ func DownloadNewDataBase(ctx context.Context) error {
 		if err != nil {
 			return err
 		}
+	}
+	// 关闭文件句柄
+	if closeErr := file.Close(); closeErr != nil {
+		runtime.LogErrorf(ctx, "关闭文件时出错: %v\n", closeErr)
 	}
 	// 将原数据库文件移动到备份目录
 	if err := os.Rename("./lib/winstore.db", "./lib/backups/winstore.db.bak"); err != nil {
