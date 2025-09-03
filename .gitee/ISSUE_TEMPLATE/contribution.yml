@@ -59,4 +59,4 @@ body:
       label: 软件的截图
       description: 软件的内部截图，如果您有的话
     validations:
-      required: true
+      required: false
