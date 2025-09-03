@@ -14,6 +14,10 @@ export function CollectUpdate(arg1:model.Collect):Promise<void>;
 
 export function DownloadFile(arg1:string,arg2:string,arg3:string):Promise<void>;
 
+export function GetDatabaseVersion():Promise<number>;
+
+export function GetNewDataBaseVersion():Promise<boolean>;
+
 export function GetSoftwareList():Promise<Array<sysUtils.SoftwareList>>;
 
 export function GetSysInfo():Promise<sysUtils.WinSysInfo>;
@@ -35,3 +39,5 @@ export function SelectPage(arg1:number,arg2:number,arg3:string):Promise<model.Ba
 export function UninstallSoftware(arg1:string):Promise<void>;
 
 export function UpdateApp():Promise<void>;
+
+export function UpdateDatabase():Promise<void>;

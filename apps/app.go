@@ -8,8 +8,8 @@ import (
 	"strings"
 	"winstore/comm"
 	"winstore/model"
-	"winstore/sysUtils"
 
+	"github.com/gen2brain/beeep"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -47,7 +47,6 @@ func NewApp() *App {
 }
 
 // Startup 启动时调用启动。保存上下文
-// 因此，我们可以调用运行时方法
 func (a *App) Startup(ctx context.Context) {
 	a.ctx = ctx
 	runtime.LogSetLogLevel(a.ctx, 2)
@@ -55,6 +54,18 @@ func (a *App) Startup(ctx context.Context) {
 	model.DBinit(ctx)
 	// 初始化软件配置
 	model.InitConfig(ctx)
+	// 检查软件库更新并发送通知
+	version := new(model.DatabaseVersion)
+	base, err := version.SelectUpdateDataBase()
+	if err != nil {
+		runtime.LogError(ctx, err.Error())
+	}
+	if base {
+		beeep.AppName = "WinStore"
+		if err := beeep.Notify("更新通知", "软件库有新版本，请及时更新", ""); err != nil {
+			runtime.LogError(ctx, err.Error())
+		}
+	}
 	residue := new(model.Residue)
 	all := residue.SelectAll()
 	if all != nil {
@@ -102,5 +113,5 @@ func (a *App) Greet(name string) string {
 
 // DownloadFile 下载文件
 func (a *App) DownloadFile(url string, filepath string, filename string) error {
-	return sysUtils.DownloadFile(url, filepath, filename, a.ctx)
+	return model.DownloadFile(url, filepath, filename, a.ctx)
 }

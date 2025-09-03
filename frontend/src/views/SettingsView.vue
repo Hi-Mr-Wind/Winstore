@@ -15,10 +15,17 @@ import { useTheme } from '@/composables/useTheme'
 import { setLanguage, getCurrentLanguage } from '@/i18n'
 import { useI18n } from 'vue-i18n'
 import Sidebar from '@/components/Sidebar.vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { GetNewDataBaseVersion, UpdateDatabase, GetDatabaseVersion } from '../../wailsjs/go/apps/App.js'
+import { ref, onMounted } from 'vue'
 
 const appStore = useAppStore()
 const { theme, setTheme } = useTheme()
 const { t, locale } = useI18n()
+
+const dbChecking = ref(false)
+const dbUpdating = ref(false)
+const dbVersion = ref<number | null>(null)
 
 // 处理主题切换
 const handleThemeChange = (newTheme: string) => {
@@ -46,6 +53,62 @@ const handleNotificationsChange = (value: boolean) => {
 const handleDownloadPathChange = (path: string) => {
   appStore.updateUserPreferences({ downloadPath: path })
 }
+
+// 加载当前数据库版本
+const loadDatabaseVersion = async () => {
+  try {
+    const v = await GetDatabaseVersion()
+    dbVersion.value = typeof v === 'number' ? v : Number(v)
+  } catch (err: any) {
+    dbVersion.value = null
+    ElMessage.error(`获取数据库版本失败：${err?.message || String(err)}`)
+  }
+}
+
+// 检查软件数据库更新
+const handleCheckDatabaseUpdate = async () => {
+  if (dbChecking.value || dbUpdating.value) return
+  try {
+    dbChecking.value = true
+    const hasNew = await GetNewDataBaseVersion()
+    if (hasNew === true) {
+      await ElMessageBox.confirm('检测到新的软件数据库，是否现在更新？', '提示', {
+        confirmButtonText: '立即更新',
+        cancelButtonText: '稍后',
+        type: 'warning'
+      })
+      await handleRunDatabaseUpdate()
+    } else if (hasNew === false) {
+      await ElMessageBox.alert('数据库已经是最新版本。', '提示', { type: 'info' })
+    } else {
+      // 防御：非布尔返回
+      ElMessage.info('检查完成')
+    }
+  } catch (err: any) {
+    ElMessage.error(`检查更新失败：${err?.message || String(err)}`)
+  } finally {
+    dbChecking.value = false
+  }
+}
+
+// 执行数据库更新
+const handleRunDatabaseUpdate = async () => {
+  if (dbUpdating.value) return
+  try {
+    dbUpdating.value = true
+    await UpdateDatabase()
+    ElMessage.success('软件库已更新到最新。')
+    await loadDatabaseVersion()
+  } catch (err: any) {
+    ElMessage.error(`更新失败：${err?.message || String(err)}`)
+  } finally {
+    dbUpdating.value = false
+  }
+}
+
+onMounted(() => {
+  loadDatabaseVersion()
+})
 </script>
 
 <template>
@@ -107,21 +170,45 @@ const handleDownloadPathChange = (path: string) => {
         </div>
 
         <!-- 更新设置区域 -->
-        <!-- <div class="settings-section">
+        <div class="settings-section">
           <h2 class="section-title">{{ t('settings.update') }}</h2>
           
-          自动更新设置 -->
-          <!-- <div class="setting-item"> -->
-            <!-- <div class="setting-info"> -->
-              <!-- <h3>{{ t('settings.autoUpdate') }}</h3> -->
-              <!-- <p>{{ t('settings.autoUpdateDesc') }}</p> -->
-            <!-- </div> -->
-            <!-- <el-switch -->
-              <!-- :model-value="appStore.userPreferences.autoUpdate" -->
-              <!-- @change="handleAutoUpdateChange" -->
-            <!-- /> -->
-          <!-- </div> -->
-        <!-- </div> -->
+          <!--自动更新设置 -->
+          <div class="setting-item">
+            <div class="setting-info">
+              <h3>{{ t('settings.autoUpdate') }}</h3>
+              <p>{{ t('settings.autoUpdateDesc') }}</p>
+            </div>
+            <div>
+              <div class="db-version" v-if="dbVersion !== null">当前数据库版本：{{ dbVersion }}</div>
+              <el-switch
+                :model-value="appStore.userPreferences.autoUpdate"
+                @change="handleAutoUpdateChange"
+              />
+            </div>
+          </div>
+
+          <!-- 软件数据库更新 -->
+          <div class="setting-item">
+            <div class="setting-info">
+              <h3>软件数据库</h3>
+              <p>检查并更新本地软件数据库到最新版本。</p>
+            </div>
+            <div>
+              <el-button
+                :loading="dbChecking"
+                @click="handleCheckDatabaseUpdate"
+              >{{ dbChecking ? '正在检查…' : '检查更新' }}</el-button>
+              <el-button
+                type="primary"
+                :loading="dbUpdating"
+                :disabled="dbChecking || dbUpdating"
+                style="margin-left: 8px"
+                @click="handleRunDatabaseUpdate"
+              >{{ dbUpdating ? '正在更新…' : '立即更新' }}</el-button>
+            </div>
+          </div>
+        </div>
 
         <!-- 通知设置区域 -->
         <div class="settings-section">
@@ -250,6 +337,11 @@ const handleDownloadPathChange = (path: string) => {
   font-size: 14px;
   color: var(--text-secondary);
   line-height: 1.5;
+}
+
+.db-version {
+  color: var(--text-secondary);
+  margin-bottom: 8px;
 }
 
 /* 路径输入框样式 */

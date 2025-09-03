@@ -58,7 +58,8 @@ Issues中软件贡献格式为：
 1. fork项目
 2. 添加或修改代码
 3. 提交Pull Request到dev分支
-4. 等待审核合并
+4. 等待审核合并  
+
 截至目前wails官方默认cli仅支持到go1.23版本，需手动修改go.mod文件，将go.mod中的go版本改为1.25。并设置环境变量，用于启动go1.25的jsonV2新特性。  
 开发启动脚本  
 `$env:GOEXPERIMENT="jsonv2";  wails dev`  

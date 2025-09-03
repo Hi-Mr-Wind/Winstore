@@ -22,6 +22,14 @@ export function DownloadFile(arg1, arg2, arg3) {
   return window['go']['apps']['App']['DownloadFile'](arg1, arg2, arg3);
 }
 
+export function GetDatabaseVersion() {
+  return window['go']['apps']['App']['GetDatabaseVersion']();
+}
+
+export function GetNewDataBaseVersion() {
+  return window['go']['apps']['App']['GetNewDataBaseVersion']();
+}
+
 export function GetSoftwareList() {
   return window['go']['apps']['App']['GetSoftwareList']();
 }
@@ -64,4 +72,8 @@ export function UninstallSoftware(arg1) {
 
 export function UpdateApp() {
   return window['go']['apps']['App']['UpdateApp']();
+}
+
+export function UpdateDatabase() {
+  return window['go']['apps']['App']['UpdateDatabase']();
 }

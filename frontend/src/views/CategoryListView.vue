@@ -37,54 +37,6 @@ onMounted(async () => {
       console.log('Go后端返回空分类数据，使用默认分类')
       // 如果Go后端没有数据，使用默认分类
       const defaultCategories: CategoryItem[] = [
-        {
-          id: 1,
-          name: '生产力',
-          icon: '💼',
-          count: 12,
-          description: '提高工作效率的工具',
-          color: '#4CAF50'
-        },
-        {
-          id: 2,
-          name: '开发工具',
-          icon: '💻',
-          count: 8,
-          description: '程序员必备的开发环境',
-          color: '#795548'
-        },
-        {
-          id: 3,
-          name: '游戏',
-          icon: '🎮',
-          count: 25,
-          description: '娱乐游戏应用',
-          color: '#FF9800'
-        },
-        {
-          id: 4,
-          name: '多媒体',
-          icon: '🎵',
-          count: 15,
-          description: '音乐、视频、图片处理',
-          color: '#E91E63'
-        },
-        {
-          id: 5,
-          name: '教育',
-          icon: '📚',
-          count: 18,
-          description: '学习教育应用',
-          color: '#9C27B0'
-        },
-        {
-          id: 6,
-          name: '工具',
-          icon: '🔧',
-          count: 22,
-          description: '实用工具软件',
-          color: '#607D8B'
-        }
       ]
       appStore.setCategories(defaultCategories)
     }
@@ -92,54 +44,7 @@ onMounted(async () => {
     console.error('获取分类数据失败，使用默认分类:', error)
     // 出错时使用默认分类
     const fallbackCategories: CategoryItem[] = [
-      {
-        id: 1,
-        name: '生产力',
-        icon: '💼',
-        count: 12,
-        description: '提高工作效率的工具',
-        color: '#4CAF50'
-      },
-      {
-        id: 2,
-        name: '开发工具',
-        icon: '💻',
-        count: 8,
-        description: '程序员必备的开发环境',
-        color: '#795548'
-      },
-      {
-        id: 3,
-        name: '游戏',
-        icon: '🎮',
-        count: 25,
-        description: '娱乐游戏应用',
-        color: '#FF9800'
-      },
-      {
-        id: 4,
-        name: '多媒体',
-        icon: '🎵',
-        count: 15,
-        description: '音乐、视频、图片处理',
-        color: '#E91E63'
-      },
-      {
-        id: 5,
-        name: '教育',
-        icon: '📚',
-        count: 18,
-        description: '学习教育应用',
-        color: '#9C27B0'
-      },
-      {
-        id: 6,
-        name: '工具',
-        icon: '🔧',
-        count: 22,
-        description: '实用工具软件',
-        color: '#607D8B'
-      }
+      
     ]
     appStore.setCategories(fallbackCategories)
   }
@@ -160,7 +65,7 @@ onMounted(async () => {
       </div>
 
       <!-- 分类网格区域 -->
-      <div v-if="appStore.categories.length > 0" class="categories-grid">
+      <div class="categories-grid">
         <div 
           v-for="category in appStore.categories" 
           :key="category.id" 
@@ -175,20 +80,6 @@ onMounted(async () => {
             <h3 class="category-name">{{ category.name }}</h3>
             <p class="category-count">{{ category.count }} {{ t('home.apps') }}</p>
           </div>
-        </div>
-      </div>
-
-      <!-- 空状态 -->
-      <div v-else class="empty-state">
-        <div class="empty-content">
-          <div class="empty-icon">📂</div>
-          <h3 class="empty-title">暂无分类数据</h3>
-          <p class="empty-description">
-            分类数据正在加载中，请稍后再试。如果问题持续存在，请检查网络连接。
-          </p>
-          <el-button type="primary" @click="router.push('/')">
-            返回首页
-          </el-button>
         </div>
       </div>
     </div>
@@ -277,37 +168,6 @@ onMounted(async () => {
 .category-count {
   font-size: 14px;
   color: var(--text-secondary);
-}
-
-/* 空状态样式 */
-.empty-state {
-  text-align: center;
-  padding: 80px 20px;
-}
-
-.empty-content {
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.empty-icon {
-  font-size: 64px;
-  margin-bottom: 24px;
-  opacity: 0.6;
-}
-
-.empty-title {
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 12px;
-}
-
-.empty-description {
-  font-size: 16px;
-  color: var(--text-secondary);
-  margin-bottom: 24px;
-  line-height: 1.5;
 }
 
 /* 响应式设计 */

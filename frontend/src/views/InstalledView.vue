@@ -636,6 +636,46 @@ onUnmounted(() => {
   background-color: var(--bg-secondary);
 }
 
+/* 深色模式下的表格与标签可读性修复 */
+::deep(.dark .el-table) {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+::deep(.dark .el-table tr) {
+  background-color: var(--bg-primary) !important;
+}
+
+::deep(.dark .el-table__body tr:hover > td) {
+  background-color: var(--bg-secondary) !important;
+}
+
+::deep(.dark .el-table th) {
+  background-color: var(--bg-secondary) !important;
+  border-bottom: 1px solid var(--border-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* 单元格文字颜色在深色模式下保持高对比 */
+::deep(.dark .el-table td) {
+  color: var(--text-primary) !important;
+}
+
+/* 斑马线与边框在深色模式的细节 */
+::deep(.dark .el-table td),
+::deep(.dark .el-table th.is-leaf) {
+  border-bottom: 1px solid var(--border-secondary) !important;
+}
+
+/* 标签内部文字与背景 */
+::deep(.dark .el-tag.el-tag--info .el-tag__content) {
+  color: var(--text-primary) !important;
+}
+
+::deep(.dark .el-button.is-disabled) {
+  color: var(--text-tertiary) !important;
+}
+
 /* 软件名称样式 */
 .software-name {
   display: flex;

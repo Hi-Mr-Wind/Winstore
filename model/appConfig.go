@@ -52,3 +52,21 @@ func InitConfig(ctx context.Context) {
 		return
 	}
 }
+
+// GetConfig 获取配置文件内容
+func (c *Config) GetConfig() error {
+	file, err := os.Open("./config.json")
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	var config Config
+	err = json.NewDecoder(file).Decode(&config)
+	if err != nil {
+		return err
+	}
+	c.Version = config.Version
+	c.UpdateUrl = config.UpdateUrl
+	return nil
+}
