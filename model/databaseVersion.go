@@ -33,7 +33,7 @@ func (databaseVersion *DatabaseVersion) GetVersion() error {
 }
 
 // SelectUpdateDataBase 查询软件数据库更新
-func (databaseVersion *DatabaseVersion) SelectUpdateDataBase() (bool, error) {
+func (databaseVersion *DatabaseVersion) SelectUpdateDataBase(ctx context.Context) (bool, error) {
 	config := new(Config)
 	if err := config.GetConfig(); err != nil {
 		return false, err
@@ -44,16 +44,23 @@ func (databaseVersion *DatabaseVersion) SelectUpdateDataBase() (bool, error) {
 	client := &http.Client{
 		Timeout: 30 * time.Second,
 	}
-	get, err := client.Get(fmt.Sprintf("%s/database/version", config.UpdateUrl))
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/database/version", config.UpdateUrl), nil)
 	if err != nil {
-		return false, fmt.Errorf("请求数据库版本失败: %w", err)
+		runtime.LogErrorf(ctx, "创建请求失败:%s/n", err)
 	}
+	req.Header.Set("Authorization", comm.GetMachineCode())
+	// 发送请求
+	resp, err := client.Do(req)
+	if err != nil {
+		runtime.LogErrorf(ctx, "请求数据失败: %v\n", err)
+	}
+
 	defer func() {
-		if closeErr := get.Body.Close(); closeErr != nil {
+		if closeErr := resp.Body.Close(); closeErr != nil {
 			fmt.Printf("关闭响应体时出错: %v\n", closeErr)
 		}
 	}()
-	body, err := io.ReadAll(get.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return false, fmt.Errorf("读取响应体失败: %w", err)
 	}
@@ -112,16 +119,18 @@ func DownloadNewDataBase(ctx context.Context) error {
 		return fmt.Errorf("解析响应数据失败: %w", err)
 	}
 	// 根据downloadUrl请求并下载数据库文件
-	cl := &http.Client{
-		Timeout: 30 * time.Second,
+	request, err := http.NewRequest("GET", string(downloadUrl), nil)
+	if err != nil {
+		return err
 	}
-	get, err := cl.Get(string(downloadUrl))
+	request.Header.Set("Authorization", comm.GetMachineCode())
+	get, err := client.Do(request)
 	if err != nil {
 		return fmt.Errorf("请求数据库文件失败: %w", err)
 	}
 	defer func() {
 		if closeErr := get.Body.Close(); closeErr != nil {
-			runtime.LogErrorf(ctx, "关闭响应体时出错: %v\n", closeErr)
+			runtime.LogErrorf(ctx, "关闭响应时出错: %v\n", closeErr)
 		}
 	}()
 	runtime.LogInfof(ctx, "开始下载数据库文件")

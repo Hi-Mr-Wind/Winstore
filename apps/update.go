@@ -15,7 +15,7 @@ func (a *App) GetDatabaseVersion() (int64, error) {
 // GetNewDataBaseVersion 获取数据库版本
 func (a *App) GetNewDataBaseVersion() (bool, error) {
 	dbv := new(model.DatabaseVersion)
-	return dbv.SelectUpdateDataBase()
+	return dbv.SelectUpdateDataBase(a.ctx)
 }
 
 // UpdateDatabase 更新软件数据库

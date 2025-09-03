@@ -56,7 +56,7 @@ func (a *App) Startup(ctx context.Context) {
 	model.InitConfig(ctx)
 	// 检查软件库更新并发送通知
 	version := new(model.DatabaseVersion)
-	base, err := version.SelectUpdateDataBase()
+	base, err := version.SelectUpdateDataBase(ctx)
 	if err != nil {
 		runtime.LogError(ctx, err.Error())
 	}
