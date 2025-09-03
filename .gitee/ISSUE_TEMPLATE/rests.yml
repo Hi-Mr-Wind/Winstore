@@ -1,0 +1,13 @@
+name: 其他反馈
+description: 提出您的建议或疑问
+title: "[其他反馈]: "
+labels: ["rests"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢提出功能建议，我们将仔细考虑！
+  - type: textarea
+    id: rests
+    attributes:
+      labels: 提出您的建议或疑问
