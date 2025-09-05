@@ -1,6 +1,7 @@
 package apps
 
 import (
+	"time"
 	"winstore/sysUtils"
 )
 
@@ -32,4 +33,17 @@ func (a *App) UninstallSoftware(softwareName string) error {
 func (a *App) UpdateApp() error {
 
 	return nil
+}
+
+// SysExpiredDocuments 清理X天之前的临时文件 默认清理七天前的临时文件
+func (a *App) SysExpiredDocuments(times int64) error {
+	if times <= 0 {
+		times = 7
+	}
+	return sysUtils.SysExpiredDocuments(a.ctx, time.Duration(times))
+}
+
+// SysGarbageCleanup 调用windows系统垃圾清理
+func (a *App) SysGarbageCleanup(config int) error {
+	return sysUtils.SysGarbageCleanup(a.ctx, config)
 }

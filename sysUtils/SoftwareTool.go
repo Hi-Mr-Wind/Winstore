@@ -286,7 +286,7 @@ func parseUninstallString(uninstallStr string) (exePath string, args []string) {
 			// 检查空格后的字符是否是参数开始
 			if i+1 < len(uninstallStr) {
 				nextChar := uninstallStr[i+1]
-				if nextChar == '/' || nextChar == '-' {
+				if nextChar == '/' {
 					firstArgPos = i + 1
 					break
 				}
