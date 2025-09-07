@@ -47,3 +47,8 @@ func (a *App) SysExpiredDocuments(times int64) error {
 func (a *App) SysGarbageCleanup(config int) error {
 	return sysUtils.SysGarbageCleanup(a.ctx, config)
 }
+
+// ImageConversionType 图片格式转换工具转换
+func (a *App) ImageConversionType(filePath string, newFilePath string, typeCode int) error {
+	return sysUtils.ImageConversionType(filePath, newFilePath, typeCode)
+}

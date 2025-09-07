@@ -42,8 +42,24 @@ export function Greet(arg1) {
   return window['go']['apps']['App']['Greet'](arg1);
 }
 
+export function ImageConversionType(arg1, arg2, arg3) {
+  return window['go']['apps']['App']['ImageConversionType'](arg1, arg2, arg3);
+}
+
 export function OnSecondInstanceLaunch(arg1) {
   return window['go']['apps']['App']['OnSecondInstanceLaunch'](arg1);
+}
+
+export function OpenDirectoryDialog() {
+  return window['go']['apps']['App']['OpenDirectoryDialog']();
+}
+
+export function OpenFileDialog() {
+  return window['go']['apps']['App']['OpenFileDialog']();
+}
+
+export function OpenImageDialog() {
+  return window['go']['apps']['App']['OpenImageDialog']();
 }
 
 export function RestartSystem(arg1) {
@@ -64,6 +80,14 @@ export function SelectClassify() {
 
 export function SelectPage(arg1, arg2, arg3) {
   return window['go']['apps']['App']['SelectPage'](arg1, arg2, arg3);
+}
+
+export function SysExpiredDocuments(arg1) {
+  return window['go']['apps']['App']['SysExpiredDocuments'](arg1);
+}
+
+export function SysGarbageCleanup(arg1) {
+  return window['go']['apps']['App']['SysGarbageCleanup'](arg1);
 }
 
 export function UninstallSoftware(arg1) {
