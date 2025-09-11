@@ -7,6 +7,7 @@ import { ClipboardSetText } from '../../wailsjs/runtime/runtime.js'
 import type { sysUtils } from '../../wailsjs/go/models'
 import Sidebar from '@/components/Sidebar.vue'
 import ImageConversionDrawer from '@/components/ImageConversionDrawer.vue'
+import SystemCleanupDrawer from '@/components/SystemCleanupDrawer.vue'
 import { 
   Monitor, 
   Cpu, 
@@ -23,8 +24,9 @@ const { t } = useI18n()
 const sysInfo = ref<sysUtils.WinSysInfo | null>(null)
 const loading = ref(false)
 
-// 图片格式转换抽屉状态
+// 抽屉状态
 const imageConversionDrawerVisible = ref(false)
+const systemCleanupDrawerVisible = ref(false)
 
 // 工具列表
 const tools = [
@@ -41,7 +43,8 @@ const tools = [
     name: '系统清理',
     description: '清理系统垃圾文件，释放磁盘空间',
     icon: '🧹',
-    status: 'coming-soon'
+    status: 'available',
+    action: 'system-cleanup'
   },
   {
     id: 3,
@@ -149,6 +152,8 @@ const handleToolClick = (tool: any) => {
   if (tool.status === 'available') {
     if (tool.action === 'image-conversion') {
       imageConversionDrawerVisible.value = true
+    } else if (tool.action === 'system-cleanup') {
+      systemCleanupDrawerVisible.value = true
     } else {
       console.log(`启动工具: ${tool.name}`)
     }
@@ -402,6 +407,8 @@ onMounted(() => {
 
     <!-- 图片格式转换抽屉 -->
     <ImageConversionDrawer v-model="imageConversionDrawerVisible" />
+    <!-- 系统清理抽屉 -->
+    <SystemCleanupDrawer v-model="systemCleanupDrawerVisible" />
   </div>
 </template>
 
