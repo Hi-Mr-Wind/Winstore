@@ -115,3 +115,30 @@ func (a *App) Greet(name string) string {
 func (a *App) DownloadFile(url string, filepath string, filename string) error {
 	return model.DownloadFile(url, filepath, filename, a.ctx)
 }
+
+// OpenDirectoryDialog 打开目录选择框
+func (a *App) OpenDirectoryDialog() (string, error) {
+	dialogOptions := new(runtime.OpenDialogOptions)
+	dialogOptions.Title = "请选择目录"
+	return runtime.OpenDirectoryDialog(a.ctx, *dialogOptions)
+}
+
+// OpenFileDialog 打开文件选择框
+func (a *App) OpenFileDialog() (string, error) {
+	dialogOptions := new(runtime.OpenDialogOptions)
+	dialogOptions.Title = "请选择文件"
+	return runtime.OpenFileDialog(a.ctx, *dialogOptions)
+}
+
+// OpenImageDialog 打开图片选择框
+func (a *App) OpenImageDialog() (string, error) {
+	dialogOptions := new(runtime.OpenDialogOptions)
+	dialogOptions.Title = "请选择图片"
+	dialogOptions.Filters = []runtime.FileFilter{
+		{
+			DisplayName: "图片",
+			Pattern:     "*.png;*.jpg;*.jpeg;*.gif;*.bmp",
+		},
+	}
+	return runtime.OpenFileDialog(a.ctx, *dialogOptions)
+}

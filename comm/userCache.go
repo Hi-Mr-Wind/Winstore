@@ -132,7 +132,7 @@ func (c *Cache) autoSave(interval time.Duration) {
 	defer ticker.Stop()
 
 	for range ticker.C {
-		fmt.Println("—————————————————————————————自动保存缓存正在执行———————————————————————————")
+		fmt.Println("—————————————————————————————自动保存缓存———————————————————————————")
 		err := c.SaveToDisk()
 		if err != nil {
 			fmt.Printf("自动保存缓存失败: %v\n", err)

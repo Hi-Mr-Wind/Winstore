@@ -24,7 +24,15 @@ export function GetSysInfo():Promise<sysUtils.WinSysInfo>;
 
 export function Greet(arg1:string):Promise<string>;
 
+export function ImageConversionType(arg1:string,arg2:string,arg3:number):Promise<void>;
+
 export function OnSecondInstanceLaunch(arg1:options.SecondInstanceData):Promise<void>;
+
+export function OpenDirectoryDialog():Promise<string>;
+
+export function OpenFileDialog():Promise<string>;
+
+export function OpenImageDialog():Promise<string>;
 
 export function RestartSystem(arg1:string):Promise<void>;
 
@@ -35,6 +43,10 @@ export function SelectByName(arg1:string):Promise<model.BaseModel>;
 export function SelectClassify():Promise<model.BaseModel>;
 
 export function SelectPage(arg1:number,arg2:number,arg3:string):Promise<model.BaseModel>;
+
+export function SysExpiredDocuments(arg1:number):Promise<void>;
+
+export function SysGarbageCleanup(arg1:number):Promise<void>;
 
 export function UninstallSoftware(arg1:string):Promise<void>;
 

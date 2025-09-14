@@ -186,6 +186,7 @@ func UninstallSoftware(ctx context.Context, softwareName string) error {
 		if err != nil {
 			runtime.EventsEmit(ctx, "UninstallSoftware_"+softwareName, fmt.Sprintf("%s卸载进程异常：%s", softwareName, err.Error()))
 			runtime.LogErrorf(ctx, "卸载过程中出错: %v\n", err)
+			runtime.EventsOff(ctx, "UninstallSoftware_"+softwareName)
 			err := cmdRun.Process.Kill()
 			if err != nil {
 				runtime.LogErrorf(ctx, "卸载进程关闭失败: %v\n", err)
@@ -198,12 +199,14 @@ func UninstallSoftware(ctx context.Context, softwareName string) error {
 		installedSoftware, err := getInstalledSoftware()
 		if err != nil {
 			runtime.LogErrorf(ctx, "获取软件列表失败: %v\n", err)
+			runtime.EventsOff(ctx, "UninstallSoftware_"+softwareName)
 			return
 		}
 		for _, data := range installedSoftware {
 			if strings.EqualFold(data.Name, softwareName) {
 				runtime.LogErrorf(ctx, "软件未卸载成功！请手动卸载！")
 				runtime.EventsEmit(ctx, "UninstallSoftware_"+softwareName, fmt.Sprintf("%s 未卸载成功！请再次尝试！", softwareName))
+				runtime.EventsOff(ctx, "UninstallSoftware_"+softwareName)
 				return
 			}
 		}
@@ -226,14 +229,15 @@ func UninstallSoftware(ctx context.Context, softwareName string) error {
 					return
 				}
 				runtime.EventsEmit(ctx, "UninstallSoftware_"+softwareName, fmt.Sprintf("%s 卸载完成！将在计算机重启后删除残留文件！", softwareName))
+				runtime.EventsOff(ctx, "UninstallSoftware_"+softwareName)
 			}
 			//else {
 			//--暂时不再提供删除注册表项--
 
 			//}
-			runtime.EventsOff(ctx, "UninstallSoftware_"+softwareName)
 			return
 		}
+		runtime.EventsOff(ctx, "UninstallSoftware_"+softwareName)
 
 	}()
 	return nil
@@ -282,7 +286,7 @@ func parseUninstallString(uninstallStr string) (exePath string, args []string) {
 			// 检查空格后的字符是否是参数开始
 			if i+1 < len(uninstallStr) {
 				nextChar := uninstallStr[i+1]
-				if nextChar == '/' || nextChar == '-' {
+				if nextChar == '/' {
 					firstArgPos = i + 1
 					break
 				}

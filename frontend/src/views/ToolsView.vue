@@ -6,6 +6,8 @@ import { GetSysInfo } from '../../wailsjs/go/apps/App.js'
 import { ClipboardSetText } from '../../wailsjs/runtime/runtime.js'
 import type { sysUtils } from '../../wailsjs/go/models'
 import Sidebar from '@/components/Sidebar.vue'
+import ImageConversionDrawer from '@/components/ImageConversionDrawer.vue'
+import SystemCleanupDrawer from '@/components/SystemCleanupDrawer.vue'
 import { 
   Monitor, 
   Cpu, 
@@ -22,34 +24,47 @@ const { t } = useI18n()
 const sysInfo = ref<sysUtils.WinSysInfo | null>(null)
 const loading = ref(false)
 
+// 抽屉状态
+const imageConversionDrawerVisible = ref(false)
+const systemCleanupDrawerVisible = ref(false)
+
 // 工具列表
 const tools = [
   {
     id: 1,
-    name: '系统清理',
-    description: '清理系统垃圾文件，释放磁盘空间',
-    icon: '🧹',
-    status: 'coming-soon'
+    name: '图片格式转换',
+    description: '支持 JPG、PNG、GIF、BMP、TIF、WEBP 等格式转换',
+    icon: '🖼️',
+    status: 'available',
+    action: 'image-conversion'
   },
   {
     id: 2,
+    name: '系统清理',
+    description: '清理系统垃圾文件，释放磁盘空间',
+    icon: '🧹',
+    status: 'available',
+    action: 'system-cleanup'
+  },
+  {
+    id: 3,
     name: '软件更新',
     description: '检查并更新已安装的软件',
     icon: '🔄',
     status: 'coming-soon'
   },
   {
-    id: 3,
+    id: 4,
     name: '系统优化',
     description: '优化系统性能设置',
     icon: '⚡',
     status: 'coming-soon'
   },
   {
-    id: 4,
+    id: 5,
     name: '精美壁纸',
     description: '免费的精品壁纸',
-    icon: '🖼️',
+    icon: '🎨',
     status: 'coming-soon'
   }
 ]
@@ -135,9 +150,15 @@ const copyToClipboard = async (text: string, label: string) => {
 // 处理工具点击
 const handleToolClick = (tool: any) => {
   if (tool.status === 'available') {
-    console.log(`启动工具: ${tool.name}`)
+    if (tool.action === 'image-conversion') {
+      imageConversionDrawerVisible.value = true
+    } else if (tool.action === 'system-cleanup') {
+      systemCleanupDrawerVisible.value = true
+    } else {
+      console.log(`启动工具: ${tool.name}`)
+    }
   } else {
-    console.log('该功能即将推出')
+    ElMessage.info('该功能即将推出，敬请期待！')
   }
 }
 
@@ -354,7 +375,10 @@ onMounted(() => {
             v-for="tool in tools" 
             :key="tool.id" 
             class="tool-card"
-            :class="{ 'coming-soon': tool.status === 'coming-soon' }"
+            :class="{ 
+              'coming-soon': tool.status === 'coming-soon',
+              'available': tool.status === 'available'
+            }"
             @click="handleToolClick(tool)"
           >
             <div class="tool-icon">{{ tool.icon }}</div>
@@ -368,11 +392,23 @@ onMounted(() => {
               >
                 即将推出
               </el-tag>
+              <el-tag 
+                v-else-if="tool.status === 'available'" 
+                type="success" 
+                size="small"
+              >
+                可用
+              </el-tag>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- 图片格式转换抽屉 -->
+    <ImageConversionDrawer v-model="imageConversionDrawerVisible" />
+    <!-- 系统清理抽屉 -->
+    <SystemCleanupDrawer v-model="systemCleanupDrawerVisible" />
   </div>
 </template>
 
@@ -741,6 +777,30 @@ onMounted(() => {
 
 .tool-card.coming-soon::before {
   display: none;
+}
+
+.tool-card.available {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  color: white;
+  border: 2px solid var(--accent-primary);
+}
+
+.tool-card.available::before {
+  background: linear-gradient(90deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
+  opacity: 1;
+}
+
+.tool-card.available:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.tool-card.available .tool-name {
+  color: white;
+}
+
+.tool-card.available .tool-description {
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .tool-icon {
