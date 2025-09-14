@@ -24,7 +24,7 @@
           <h3 class="section-title">清理过期临时文件</h3>
         </div>
         <div class="form-row">
-          <span class="setting-label">保留天数</span>
+          <span class="setting-label">清理天数</span>
           <el-input-number
             v-model="daysToKeep"
             :min="-1"
@@ -33,7 +33,7 @@
             controls-position="right"
           />
         </div>
-        <div class="hint">传 0 或 -1 按默认 7 天处理</div>
+        <div class="hint">选中数字为清理N天前的文件</div>
         <div class="action-buttons">
           <el-button type="primary" :loading="cleaningExpired" @click="runExpiredCleanup">
             <el-icon v-if="!cleaningExpired"><Switch /></el-icon>
@@ -54,21 +54,21 @@
           <div class="section-icon">🖥️</div>
           <h3 class="section-title">系统磁盘清理</h3>
         </div>
-        <div class="form-row">
-          <span class="setting-label">清理模式参数</span>
-          <el-input-number
-            v-model="diskCleanupMode"
-            :min="0"
-            :max="65535"
-            :step="1"
-            controls-position="right"
-          />
-        </div>
-        <div class="hint">不同参数对应系统磁盘清理的预设配置，留空使用默认</div>
+<!--        <div class="form-row">-->
+<!--          <span class="setting-label">清理模式参数</span>-->
+<!--          <el-input-number-->
+<!--            v-model="diskCleanupMode"-->
+<!--            :min="0"-->
+<!--            :max="65535"-->
+<!--            :step="1"-->
+<!--            controls-position="right"-->
+<!--          />-->
+<!--        </div>-->
+<!--        <div class="hint">不同参数对应系统磁盘清理的预设配置，留空使用默认</div>-->
         <div class="action-buttons">
           <el-button type="success" :loading="runningDiskCleanup" @click="runDiskCleanup">
             <el-icon v-if="!runningDiskCleanup"><Promotion /></el-icon>
-            {{ runningDiskCleanup ? '执行中...' : '调用磁盘清理' }}
+            {{ runningDiskCleanup ? '执行中...' : '磁盘清理' }}
           </el-button>
         </div>
         <div v-if="diskCleanupResult" class="result">
